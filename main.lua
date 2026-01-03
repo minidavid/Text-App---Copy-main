@@ -69,13 +69,13 @@ function DrawScreen()
     love.graphics.setFont(fontregular)
 
     if love.mouse.isDown(1) then
-        CreatePixel()        
+        CreatePixel()
     end
-    
+
     for i,v in ipairs(mousePixTable) do
         love.graphics.points(v.x,v.y)
     end
-    
+
 end
 
 
@@ -89,7 +89,7 @@ function love.draw()
     DrawUI()
     UIActivity()
     HeaderText()
-
+--/home/davidnjihia/Downloads/Text-App---Copy-main/main.lua
 
     if mode == 1 then
         AllowEditTextFileName()
