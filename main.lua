@@ -42,13 +42,11 @@ function love.load()
     undoImg = love.graphics.newImage("image/Undo.png")
     
     sr1 = love.audio.newSource("SoundEffectClick.mp3","static")
-
+    
     LoadPreferences()
     LoadTrie()
     LoadShader() --IS LAST load function
 end
-
-
 
 
 ------------------------------------
@@ -115,8 +113,8 @@ function love.draw()
     DrawScreen()
     
     DrawShader() -- IS LAST draw function
-end
 
+end
 
 
 
@@ -128,8 +126,7 @@ function love.update(dt)
     CreateVar()
     UpdateTypedOutText(dt)
     CloseWindow()
-    EnlargeWindow()
-    
+    EnlargeWindow() 
 end
 
 
@@ -144,8 +141,6 @@ function love.keypressed(key)
     if key == "escape" then
         startClosingWindow = true
     end
-
-
 
 end
 

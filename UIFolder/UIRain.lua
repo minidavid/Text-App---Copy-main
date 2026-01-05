@@ -43,6 +43,7 @@ local xRectPos = 0
 local yRectPos = 0
 
 function Rain()
+    love.graphics.print(currentMonth,100,100)
     -- Check if it's the 15th day
     if currentDay == "15" then
         size = 1
@@ -50,14 +51,18 @@ function Rain()
         size = 1000
     end
 
-    if currentDay=="1" then
-        love.graphics.print("first day of month",0,0)
+    if currentDay=="01" then
+        love.graphics.print("It's the First Day of Month :)",0,0)
+    end
+
+    if currentDay=="26" and currentMonth=="12" then
+        love.graphics.print("Happy Boxing Day!",0,0)
     end
 
 
     -- Christmas rain
 
-    for r = 20,28 do
+    for r = 20,25 do
         if currentDay==tostring(r) and currentMonth=="12"         
         then
         love.graphics.print("Merry Christmas!",UI.x,love.graphics.getHeight()-120)
@@ -78,7 +83,7 @@ function Rain()
     end
 
 
-    if currentDay=="16" and currentMonth=="02" then
+    if currentDay=="04" and currentMonth=="01" then
 
         pixelTime = pixelTime + 2
 
@@ -125,6 +130,7 @@ function Rain()
 
 
 
+--/home/davidnjihia/Downloads/Text-App---Copy-main/image/Untitled.png
 
     --Hearty Valentines day
     local closetoeachother = 130  -- Define the minimum distance to avoid overlap

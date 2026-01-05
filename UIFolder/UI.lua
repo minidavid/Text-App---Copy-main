@@ -59,6 +59,7 @@ speedText = {
     x = UI.x+UI.width*7 + UI.width + 5,
     y = UI.y+10
 }
+
 function Menus()
     
     Scrollbar()
