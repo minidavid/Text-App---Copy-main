@@ -103,6 +103,7 @@ function isKeyTapped(key)
     if love.keyboard.isDown(key) and not love.mouse.isDown(1,1) then
         if keyPressed[key] == nil or keyPressed[key] ==false  then
             keyPressed[key] = true
+
             return true
         end
     else
@@ -270,8 +271,7 @@ function AllowEditTextContent()
             -- Move backwards to the start of the word
             while wordStart > 1 and not textContent:sub(wordStart, wordStart):match("\n") do
                 wordStart = wordStart - 1
-            end
-
+            end        
 
             -- Cut the word (remove from wordStart to cursorIndex)
             local cutText = textContent:sub(wordStart, cursorIndex - 1)

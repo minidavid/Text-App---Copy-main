@@ -43,7 +43,7 @@ local xRectPos = 0
 local yRectPos = 0
 
 function Rain()
-    love.graphics.print(currentMonth,100,100)
+    --love.graphics.print(currentMonth,100,100)
     -- Check if it's the 15th day
     if currentDay == "15" then
         size = 1

@@ -100,7 +100,7 @@ function Menus()
             speedText.x = UI.x+UI.width*7 + UI.width + 50
         end
 
-        love.graphics.print((speedText.x - UI.x-UI.width*7-UI.width)/400,420,60)
+        love.graphics.print(1.1-(speedText.x - UI.x-UI.width*7-UI.width)/50,420,60)
         holdDuration = (speedText.x - UI.x-UI.width*7-UI.width)/400
 
 

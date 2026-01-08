@@ -22,6 +22,7 @@ function love.wheelmoved(x,y)
     if y>0 then
         scroller.y = scroller.y + scrollSpeed
     end
+    ScrollSfx()
 end
 ----
 
@@ -69,7 +70,8 @@ function DrawScrollbar()
                 scroller.x = 530
             end
             local pos = math.atan2(mx - scroller.x, my - love.graphics.getHeight() - 20)
-            scroller.x = scroller.x + 1*math.sin(pos)   
+            scroller.x = scroller.x + 1*math.sin(pos)
+
         end
     end
 
@@ -80,6 +82,14 @@ function ScrollbarActivity()
     if scrollWithMouse then
         scroller.x = mx
         scroller.y = my
-    end    
+        ScrollSfx()
+    end
 end
 
+--/home/davidnjihia/Downloads/Text-App---Copy-main/UIFolder/Scrollbar.lua
+
+function ScrollSfx()
+    sr2:setVolume(volume)
+    sr2:setPitch(math.random(1,10)/10)
+    sr2:play()
+end

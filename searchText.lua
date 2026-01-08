@@ -89,6 +89,10 @@ function Parser()
     ParseMinusText(textContent)
     ReplaceMinusText(textContent)
 
+    ParsenumFactorial(textContent)
+    ReplacenumFactorial(textContent)
+
+
 
 end
 
@@ -204,6 +208,20 @@ require('DrawSomeCool')
 function ReplaceMathConstants(text)
     text = string.gsub(text, "%[PI value%]", 3.14159265358979)
     text = string.gsub(text, "%[pi value%]", 3.14159265358979)
+    text = string.gsub(text, "%[eq%]", "=")
+    text = string.gsub(text, "%[plus%]", "+")
+    text = string.gsub(text, "%[add%]", "+")
+    text = string.gsub(text, "%[sub%]", "-")
+    text = string.gsub(text, "%[subtract%]", "-")
+    text = string.gsub(text, "%[div%]", "/")
+    text = string.gsub(text, "%[divide%]", "/")
+    text = string.gsub(text, "%[mul%]", "*")
+    text = string.gsub(text, "%[multiply%]", "*")
+    text = string.gsub(text, "%[tilde%]", "~")
+    text = string.gsub(text, "%[tilde%]", "~")
+    text = string.gsub(text, "%[mod%]", "%%")
+    text = string.gsub(text, "%[modulo%]", "%%")
+    text = string.gsub(text, "%[factorial%]", "!")
 
 
     --greek letters commonly used
@@ -586,8 +604,38 @@ function ReplacenumDivide(text)
     end
 end
 
+-----factorial
+local num9
+
+function ParsenumFactorial(text)
+    num9 = string.match(text, "%[(%d+)%!%]")
+    if num9~="" and num9~=nil then
+        num9 = tonumber(num9)
+    end
+end
+
+function ReplacenumFactorial(text)
 
 
+    if num9~="" and num9~=nil then 
+       
+        local result = 1
+        
+        num9 = tonumber(num9)
+
+        for i = 2,num9 do
+            result = result * i
+
+        end
+
+
+        text = string.gsub(text, "%[" .. num9 .. "%!%]", tostring(result))
+        textContent = text
+
+    end
+
+
+end
 
 
 -----FIX THIS!!!!!------

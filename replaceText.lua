@@ -23,4 +23,7 @@ end
 function CreateVar()
     SearchText(textContent,"cool",1, UI.x,510)
     ReplaceText(textContent,"ey","Hi")
+
+    --ReplaceHexToRGB()
+
 end

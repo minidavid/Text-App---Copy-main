@@ -12,7 +12,7 @@ function LoadShader()
         {
             float scale = 1.0 + 0.5 * sin(time);
             vertex_position.x -= scale + abs(sin(time));
-            vertex_position.y -= scale+abs(cos(time));
+            vertex_position.y -= 0+scale+abs(cos(time));
             return transform_projection * vertex_position;
         }
         
@@ -23,9 +23,10 @@ function LoadShader()
             float cool = texture_coords.x;
 
                 r = myColor;
-                g = myColor;
-                b = myColor;
-            return vec4(r, g, b, 0.5);
+                g = time;
+                b = 0;
+            float c = abs(sin(time));
+            return vec4(c, c, r/2+c, 1.0);
         }
     ]])
 end
@@ -33,6 +34,7 @@ end
 
 
 function DrawShader()
+
     love.graphics.setShader(myShader)
     love.graphics.rectangle("fill",10,40,200,3)
 

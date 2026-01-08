@@ -9,6 +9,4 @@ function EnlargeWindow()
                 love.window.setMode(width, height, {resizable=false})
         end
         
-
-        
 end

@@ -16,6 +16,7 @@ require('shaders')
 require('autocomplete')
 require('colorWheel')
 require('DrawSomeCool')
+require('shaders2')
 
 
 mx,my = 0
@@ -42,10 +43,14 @@ function love.load()
     undoImg = love.graphics.newImage("image/Undo.png")
     
     sr1 = love.audio.newSource("SoundEffectClick.mp3","static")
-    
+    sr2 = love.audio.newSource("Save.mp3","static")
+    sr3 = love.audio.newSource("Click.mp3","static")
+       
+    sr2:play()
     LoadPreferences()
     LoadTrie()
-    LoadShader() --IS LAST load function
+    LoadShader()
+    LoadShader2() --IS LAST load function
 end
 
 
@@ -80,6 +85,7 @@ end
 local utf8 = require('utf8')
 function love.draw()
     love.graphics.setBackgroundColor(white)
+    DrawShader2()
 
     Parser()
 
@@ -92,7 +98,6 @@ function love.draw()
     if mode == 1 then
         AllowEditTextFileName()
     elseif mode == 2 then
-
         AllowEditTextContent()
     end
 

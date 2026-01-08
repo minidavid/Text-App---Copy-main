@@ -203,9 +203,9 @@ function DisplaySave()
     if WhileSaveSubmenuHover()
     and love.mouse.isDown(1,1) then
         
-        sr1:setVolume(volume)
-        sr1:setPitch(0.1)
-        sr1:play()
+        sr2:setVolume(volume)
+        --sr2:setPitch(0.1)
+        sr2:play()
 
         FileStuffSave() --FileStuff.lua file, write the file
 
@@ -302,7 +302,6 @@ function DisplayEdit()
 
         end
     end
-
 
 
 end

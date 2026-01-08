@@ -839,8 +839,9 @@ wordList = [[
     
     windmill mill mall mildred mop man mast 
     tide animal mythology urban legend urbanization rural migration rural-to-urban city
+    watamu malindi kilifi ruiru thika narok gede
     nairobi mombasa kisumu eldoret new york manchester tokyo shibuya redlight district street address physical
-    economic social 
+    economic social voi jomo kenyatta Palestine
     french american canadian new zealand canada 
     mongolian mongols tunis egypt egyptians pyramid sphynx somalia somalis democratic democracy republic republican democrat 
     politics political incline
