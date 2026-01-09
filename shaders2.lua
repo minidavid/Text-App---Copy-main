@@ -50,8 +50,8 @@ function DrawShader2()
         myColor2 = 0.0
         time = love.timer.getTime()
     else
-        myColor = 0
-        myColor2 = 1
+        myColor = 0.0
+        myColor2 = 1.0
         time = 1-love.timer.getTime()
     end
 
@@ -65,6 +65,7 @@ function DrawShader2()
     myShader:send("realtime",love.timer.getTime())
 
     myShader:send("myColor",myColor)
+    myShader:send("myColor2",myColor2)
 
 
 end
