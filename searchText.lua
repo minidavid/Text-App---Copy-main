@@ -303,6 +303,7 @@ function ReplaceMathConstants(text)
     text = string.gsub(text, "%[HELP%]", "Hi! Welcome to the my help section\nYou may want to check out the documentation on the website on EDIT>HELP.")
 
     text = string.gsub(text, "%[area of square%]", "A = side^2") --square area
+    text = string.gsub(text, "%[area of triangle%]", "A = 1/2 * base^2") --square area
     text = string.gsub(text, "%[area of rectangle%]", "A = width * height") 
     
     text = string.gsub(text, "%[area of circle%]", "A = [PI value] * radius^2") 
@@ -325,7 +326,7 @@ function ReplaceMathConstants(text)
     text = string.gsub(text, "%[Matthew 6:33%]", "But seek first the Kingdom of God and His righteousness\nand all these things shall be added to you.\nbut have eternal life.")
     text = string.gsub(text, "%[Matthew 28:19%]", "Therefore, go and make disciples,\nbaptizing them in the name of\nThe Father, The Son and The Holy Spirit.")
     text = string.gsub(text, "%[Romans 8:28%]", "And we know that in all things, God works for the good of those who love Him\nwho have been called according to His purpose.")
-    text = string.gsub(text, "%[Psalm 91:11%]", "For He will command His angels concerning you\nto guard you in all of His ways.")
+    text = string.gsub(text, "%[Psalms 91:11%]", "For He will command His angels concerning you\nto guard you in all of His ways.")
 
 
     text = string.gsub(text, "%[i%]", 90) --imaginary's number
