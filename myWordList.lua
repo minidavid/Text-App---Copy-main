@@ -876,6 +876,16 @@ wordList = [[
     threat
     folklore folk
     giant david goliath lion
+    nepal palestine canadian venezuela sudan switzerland sweden swedish swiss 
+    fedora bazzite kasorobo thika
+    YouTube TikTok Twitch verbatum
+    Poland russia china taiwan saudi arab arabia arabica robusta
+    burkina-faso
+    anglo-saxon dane denmark slavs slavic 
+    congo congolese D.R.C.
+    crypt
+    Algeria Algiers Egypt Egyptian Tunisia Uganda
+    margarine
 
     foreboding
 

@@ -1,5 +1,7 @@
 require('myWordList')
 
+showAutocomplete = false -- Preferences changes, main draws
+
 Trie = {}
 
 function Trie:new()
@@ -50,9 +52,6 @@ end
 
 
 
-
-
-
 -- Load words into the Trie
 function LoadTrie()
     trie = Trie:new()
@@ -63,7 +62,6 @@ function LoadTrie()
     for word in wordList:gmatch("%S+") do
         trie:insert(word)
     end
- 
     
 
     
@@ -72,7 +70,8 @@ end
 --draw suggestions
 function DrawTrie()
 
-    if not startClosingWindow then
+    if not startClosingWindow
+    then
         
         love.graphics.print("Autocomplete Suggestions:", love.graphics.getWidth()-mx/6, 10)
 
@@ -90,9 +89,9 @@ function DrawTrie()
 
 
             -- If Shift is held, autocomplete with the first suggestion
-            if (love.keyboard.isDown("lalt")) and i == 1 then
+            if (love.keyboard.isDown("lalt") or love.keyboard.isDown("ralt")) and i == 1 then
                 textContent = textContent:gsub("%S+$", word)  -- Replace last word
-                cursorIndex = #textContent + 1
+                --cursorIndex = #textContent + 1
                 
             
             end

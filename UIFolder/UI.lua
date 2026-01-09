@@ -141,7 +141,6 @@ function ShowTimer()
             textContent = textContent .. formattedTime
 
         end
-
     end
 
 

@@ -49,6 +49,7 @@ function love.load()
     sr2:play()
     LoadPreferences()
     LoadTrie()
+
     LoadShader()
     LoadShader2() --IS LAST load function
 end
@@ -111,8 +112,9 @@ function love.draw()
 
     
     
-    DrawTrie()--autocomplete
-
+    if showAutocomplete then
+        DrawTrie()--autocomplete
+    end
     
     DrawPreferences()
     DrawScreen()

@@ -1,4 +1,5 @@
 local utf8 = require('utf8')
+require('replaceText')
 
 --this code just uses string.find
 function SearchText(content, searchedText, startIndex, xLogPos, yLogPos)
@@ -63,6 +64,9 @@ function Parser()
     ParsenumLog(textContent)
     ReplacenumLog(textContent)
 
+    ParsenumHex(textContent)
+    ReplacenumHex(textContent)
+
     ParseSwap(textContent)
 
     ParseSmall(textContent)
@@ -73,6 +77,9 @@ function Parser()
 
     ParsenumAdd(textContent)
     ReplacenumAdd(textContent)
+
+    ParsenumPower(textContent)
+    ReplacenumPower(textContent)
     
     ParsenumMinus(textContent)
     ReplacenumMinus(textContent)
@@ -631,6 +638,81 @@ function ReplacenumFactorial(text)
 
         text = string.gsub(text, "%[" .. num9 .. "%!%]", tostring(result))
         textContent = text
+
+    end
+
+
+end
+
+--power
+local variablesnumPower = {}
+local num10
+local num11
+
+function ParsenumPower(text)
+    num10, num11 = string.match(text, "%[([%d%.]+)%^([%d%.]+)%]")
+
+    if num10~="" and num10~=nil and num11~="" and num11~=nil then
+        variablesnumPower[num10] = tonumber(num11)
+    end
+    
+end
+
+function ReplacenumPower(text)
+    -- Check if the "[small]" tag was detected
+    if num10~="" and num10~=nil and num11~="" and num11~=nil then
+       
+        for num10,num11 in pairs(variablesnumPower) do
+            local newLetter = tostring(num10 ^ num11)
+           
+            if cursorIndex > 1 then
+                textContent = textContent:sub(1, cursorIndex - 11) .. textContent:sub(cursorIndex)
+                cursorIndex = cursorIndex - 1
+            end
+
+            text = string.gsub(text, "%[" .. num10 .. "%^" .. num11 .. "%]", newLetter)
+        end
+
+        textContent = text
+    end
+
+
+end
+
+---check hex to rgb
+local num12
+
+function ParsenumHex(text)
+    num12 = string.match(text, "%[%#(%x+)%]")
+end
+---
+
+function ReplacenumHex(text)
+
+
+    if num12~="" and num12~=nil then 
+
+        if num12:match("^%x%x%x%x%x%x$") then
+
+            ReplaceHexToRGB(num12)
+
+        else
+
+            --print error text
+            love.graphics.setColor(0.8,0,0,1)
+            
+            --adjust grammar for error text
+            if ((6-#num12==1) or (6-#num12==-1)) then
+                love.graphics.print("Requires 6 Digit Hexadecimal; "..6-#num12.." Character Left -.-",110,520)
+            else
+                love.graphics.print("Requires 6 Digit Hexadecimal; "..6-#num12.." Characters Left -.-",110,520)
+            end
+
+            UIColorSwitch() --reset color
+
+        end
+        --text = string.gsub(text, "%[%#" .. num12, tostring(result))
+        --textContent = text
 
     end
 

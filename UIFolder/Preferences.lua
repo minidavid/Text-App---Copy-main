@@ -32,7 +32,7 @@ function DrawPreferences()
         ScreenShakeToggle()
         ClearUI()
         AdjustVolume()
-
+        ShowAutocomplete()
     end
 
 
@@ -302,4 +302,39 @@ function AdjustVolume()
 
 
     end -- if
+end
+
+---autocomplete
+local autoTimer = 0
+function ShowAutocomplete()
+    love.graphics.print("Autocomplete:  "..tostring(showAutocomplete), UI.x, love.graphics.getHeight()-250)
+    love.graphics.rectangle("line", UI.x + UI.width * 1.7, love.graphics.getHeight()-260,50,30)
+
+
+    if (mx > UI.x + UI.width * 1.7-10
+    and mx < UI.x + UI.width * 1.7 + UI.width+10
+    and my > love.graphics.getHeight()-260
+    and my < love.graphics.getHeight()-230    
+    )
+    then
+
+        love.graphics.print("Wow",0,0)
+        
+        if love.mouse.isDown(1,1) 
+        then
+
+            autoTimer = autoTimer + 1
+
+        end
+
+        if autoTimer == 1 then
+            showAutocomplete = not showAutocomplete
+        end
+
+        if autoTimer>20 then
+            autoTimer = 0
+        end
+
+
+    end
 end
