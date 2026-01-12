@@ -261,10 +261,17 @@ function AllowEditTextContent()
         end
     end
 
+    if (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) and love.keyboard.isDown("s")
+     then
+        FileStuffSave()
+    end
 
 
-    if (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) and love.keyboard.isDown("x") then
-        if cursorIndex > 1 then
+    if (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) and love.keyboard.isDown("x")
+     then
+        if cursorIndex > 1 
+        then
+
             -- Find the start of the word (look backwards for spaces, or new lines, etc.)
             local wordStart = cursorIndex - 1
 
@@ -450,9 +457,32 @@ function AllowEditTextContent()
         cursorIndex = cursorIndex + 1
     end
 
+    -- Move backwards to the start of the word
+
 
 
     -- Handle return/enter (new line)
+    -- local function utf8_sub(s, startChar, endChar)
+    --     local startByte = utf8.offset(s, startChar)
+        
+    --     local endByte = endChar and utf8.offset(s, endChar + 1) - 1
+
+    --     if not startByte then return "" end
+    --     if not endByte then return s:sub(startByte) end
+
+    --     return s:sub(startByte, endByte)
+    -- end
+
+
+
+    -- if isKeyHeldOrTapped("return") then
+    --     local before = utf8_sub(textContent, 1, cursorIndex - 1)
+    --     local after  = utf8_sub(textContent, cursorIndex)
+
+    --     textContent = before .. "\n" .. after
+    --     cursorIndex = cursorIndex + 1
+    -- end
+
     if isKeyHeldOrTapped("return") then
         textContent = textContent:sub(1, cursorIndex - 1) .. "\n" .. textContent:sub(cursorIndex)
         cursorIndex = cursorIndex + 1
@@ -562,3 +592,4 @@ end
 function buffer()
     
 end
+

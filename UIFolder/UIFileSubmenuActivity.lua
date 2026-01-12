@@ -201,7 +201,7 @@ function DisplaySave()
 
     --click
     if WhileSaveSubmenuHover()
-    and love.mouse.isDown(1,1) then
+    then
         
         sr2:setVolume(volume)
         --sr2:setPitch(0.1)

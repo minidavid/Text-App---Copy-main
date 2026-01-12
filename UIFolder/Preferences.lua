@@ -119,10 +119,10 @@ function DistanceScrollActivity()
     love.graphics.rectangle("line",distanceScroll.x, love.graphics.getHeight()-360,50,30)
     love.graphics.print("Scroll Speed:     ".. scrollSpeed, distanceScroll.x - 85, love.graphics.getHeight()-350)
 
-   if (mx > distanceScroll.x-20
-    and mx < distanceScroll.x + 240
-    and my > love.graphics.getHeight()-360
-    and my < love.graphics.getHeight()-340
+   if (mx > distanceScroll.x-10
+    and mx < distanceScroll.x + 50
+    and my > love.graphics.getHeight()-370
+    and my < love.graphics.getHeight()-330
     )
     then
 
@@ -318,8 +318,8 @@ function ShowAutocomplete()
     )
     then
 
-        love.graphics.print("Wow",0,0)
-        
+
+
         if love.mouse.isDown(1,1) 
         then
 
@@ -331,7 +331,7 @@ function ShowAutocomplete()
             showAutocomplete = not showAutocomplete
         end
 
-        if autoTimer>20 then
+        if autoTimer>30 then
             autoTimer = 0
         end
 
