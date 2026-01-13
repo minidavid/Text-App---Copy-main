@@ -70,33 +70,52 @@ end
 --draw suggestions
 function DrawTrie()
 
-    if not startClosingWindow
-    then
+    if not startClosingWindow then
+
+        love.graphics.print(
+            "Autocomplete Suggestions:",
+            love.graphics.getWidth() - mx / 6,
+            10
+        )
+
+        -- Only look at text BEFORE the cursor
+        local beforeCursor = textContent:sub(1, cursorIndex - 1)
+        local afterCursor  = textContent:sub(cursorIndex)
+
+        -- Find the word the cursor is currently typing
+        local wordStart, wordEnd = beforeCursor:find("(%S+)$")
+
+        local currentWord = ""
         
-        love.graphics.print("Autocomplete Suggestions:", love.graphics.getWidth()-mx/6, 10)
-
-        -- Get the last word from textContent
-        local lastWord = textContent:match("(%S+)$") or ""  -- Extract last word
-
-        -- Get suggestions for the last word
-        local suggestions = trie:autocomplete(lastWord)
-        
-        -- Display suggestions
-        for i, word in ipairs(suggestions) do
-
-
-            love.graphics.print(word, love.graphics.getWidth()-mx/20, 30 + (i * 20))
-
-
-            -- If Shift is held, autocomplete with the first suggestion
-            if (love.keyboard.isDown("lalt") or love.keyboard.isDown("ralt")) and i == 1 then
-                textContent = textContent:gsub("%S+$", word)  -- Replace last word
-                --cursorIndex = #textContent + 1
-                
-            
-            end
-            
+        if wordStart then
+            currentWord = beforeCursor:sub(wordStart, wordEnd)
         end
+
+        -- Get suggestions
+        local suggestions = trie:autocomplete(currentWord)
+
+        for i, word in ipairs(suggestions) do
+            love.graphics.print(
+                word,
+                love.graphics.getWidth() - mx / 20,
+                30 + (i * 20)
+            )
+
+            -- Autocomplete on ALT
+            if (love.keyboard.isDown("lalt") or love.keyboard.isDown("ralt")) and i == 1 then
+                if wordStart then
+                    -- Replace ONLY the word at the cursor
+                    textContent =
+                        beforeCursor:sub(1, wordStart - 1)
+                        .. word
+                        .. afterCursor
+
+                    -- Move cursor to end of inserted word
+                    cursorIndex = (wordStart - 1) + #word + 1
+                end
+            end
+        end
+
 
         
     end
