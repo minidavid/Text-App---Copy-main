@@ -117,7 +117,7 @@ end
 
 function DistanceScrollActivity()
     love.graphics.rectangle("line",distanceScroll.x, love.graphics.getHeight()-360,50,30)
-    love.graphics.print("Scroll Speed:     ".. scrollSpeed, distanceScroll.x - 85, love.graphics.getHeight()-350)
+    love.graphics.print("Scroll Speed:     ".. scrollSpeed/10, distanceScroll.x - 85, love.graphics.getHeight()-350)
 
    if (mx > distanceScroll.x-10
     and mx < distanceScroll.x + 50
@@ -126,6 +126,7 @@ function DistanceScrollActivity()
     )
     then
 
+        love.graphics.print("Scroll Speed is from 0.1 - 0.9",mx-110,my-40)
 
         for i = 0,9 do
             if love.keyboard.isDown(i) then

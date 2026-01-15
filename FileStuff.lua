@@ -225,7 +225,6 @@ end
 -- Updated to include cursor as part of textContent
 function AllowEditTextContent()
 
-
     if love.keyboard.isDown("left") and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
         if cursorIndex > 1 then
             local wordStart = cursorIndex - 1
@@ -484,6 +483,7 @@ function AllowEditTextContent()
     -- end
 
     if isKeyHeldOrTapped("return") then
+
         textContent = textContent:sub(1, cursorIndex - 1) .. "\n" .. textContent:sub(cursorIndex)
         cursorIndex = cursorIndex + 1
 
@@ -568,9 +568,6 @@ function AllowEditTextContent()
     end
     --to get listWordPos is super tedious. Coz we have to accout for every text input & I'm too lazy for that.
     --------------------------------------------
-
-    
-
 
 
     -- Combine textContent with cursor placeholder

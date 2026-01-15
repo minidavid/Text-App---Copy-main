@@ -43,7 +43,7 @@ local editText = simpleTypewriter("Edit File Name",0.5,1,"infinite")
 local displayText = ""
 
 function DrawTypedoutText()
-    love.graphics.print(displayText,(header.x + UI.x + UI.sx + UI.width * 8)/2 + 2 - string.len(fileName)*3.6,header.y-13) --UI.lua
+    love.graphics.print(displayText.." :"..fileName,(header.x + UI.x + UI.sx + UI.width * 8)/2 + 2 - string.len(fileName)*3.6,header.y-13) --UI.lua
 end
 
 function UpdateTypedOutText(dt)

@@ -60,6 +60,8 @@ speedText = {
     y = UI.y+10
 }
 
+animateCountT = 0
+
 function Menus()
     
     Scrollbar()
@@ -73,10 +75,23 @@ function Menus()
 
     love.graphics.print("Undo", UI.x+UI.width*5, UI.y)
 
+    ---------
 
-    for i = 1,700 do
-        love.graphics.print(i,560-scroller.x/10,i*14-scroller.y*15-15)
+    local count = 1
+
+    for _ in textContent:gmatch("\n") do
+        count = count + 1
+        animateCountT = animateCountT + 1
     end
+
+    for i = 1,count do
+        --love.graphics.print(i,560-scroller.x/10 + (i*math.sin(animateCountT)),i*16-scroller.y*15-18)
+        love.graphics.print(i,560-scroller.x/10,i*16-scroller.y*15-18)
+    end
+    
+
+
+    -------
 
     --draw roller
     love.graphics.print(strand, UI.x + UI.width * 7 + UI.width + 5, UI.y+10, UI.r, UI.sx, UI.sy, UI.ox, UI.oy, UI.kx, UI.ky)
