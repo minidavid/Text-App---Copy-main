@@ -181,7 +181,7 @@ end
 
 --------------------SAVE----------------------
 function WhileSaveSubmenuHover()
-    return (mx > UI.x)
+    return (mx > UI.x-10)
     and (mx < UI.x + UI.width)
     and (my > UI.y + 120)
     and (my < UI.y + 120 + UI.height)
@@ -196,7 +196,6 @@ function DisplaySave()
     and fileClicked[#fileClicked]==true
     then
         love.graphics.rectangle("line", UI.x-10, UI.y+110, UI.width, UI.height)
-        
     end
 
     --click

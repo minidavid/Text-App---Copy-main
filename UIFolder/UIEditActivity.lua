@@ -7,8 +7,8 @@ editClicked = {false}
 function WhileEditHover()
     return (mx > UI.x+UI.width)
     and (mx < UI.x+UI.width+UI.width)
-    and (my > UI.y)
-    and (my < UI.height)
+    and (my > UI.y-10)
+    and (my < UI.height+7)
 end
 
 

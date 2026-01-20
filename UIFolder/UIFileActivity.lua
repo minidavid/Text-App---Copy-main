@@ -7,8 +7,8 @@ fileClicked = {false}
 function WhileFileHover()
     return (mx > UI.x)
     and (mx < UI.x+UI.width)
-    and (my > UI.y)
-    and (my < UI.height)    
+    and (my > UI.y-10)
+    and (my < UI.height+7)    
 end
 
 

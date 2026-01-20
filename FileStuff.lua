@@ -266,7 +266,8 @@ function AllowEditTextContent()
     end
 
 
-    if (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) and love.keyboard.isDown("x")
+    --ctrl + x
+    if (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) and isKeyHeldOrTapped("x")
      then
         if cursorIndex > 1 
         then
@@ -323,18 +324,20 @@ function AllowEditTextContent()
     end
 
     -- Insert letters, numbers, and special characters
-    for i = 1, #alphabet do
-        if isKeyHeldOrTapped(alphabet[i]) then
-            local charToInsert = (love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift")) and string.upper(alphabet[i]) or string.lower(alphabet[i])
-            textContent = textContent:sub(1, cursorIndex - 1) .. charToInsert .. textContent:sub(cursorIndex)
-            cursorIndex = cursorIndex + 1
+    if not isKeyHeldOrTapped("lctrl") or isKeyHeldOrTapped("rctrl") then
+        for i = 1, #alphabet do
+            if isKeyHeldOrTapped(alphabet[i]) then
+                local charToInsert = (love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift")) and string.upper(alphabet[i]) or string.lower(alphabet[i])
+                textContent = textContent:sub(1, cursorIndex - 1) .. charToInsert .. textContent:sub(cursorIndex)
+                cursorIndex = cursorIndex + 1
 
-            if screenShakeTogglePressed[#screenShakeTogglePressed] then
-                table.insert(listWord,charToInsert)
-                CreateTextEffect()
-                love.graphics.translate(-1,0)
+                if screenShakeTogglePressed[#screenShakeTogglePressed] then
+                    table.insert(listWord,charToInsert)
+                    CreateTextEffect()
+                    love.graphics.translate(-1,0)
+                end
+
             end
-
         end
     end
 

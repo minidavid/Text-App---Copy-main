@@ -98,7 +98,8 @@ function Menus()
     love.graphics.circle("line", speedText.x, speedText.y, 8, 15)
 
     ----- text speed roller top right
-    if math.sqrt((speedText.x-mx)^2+(speedText.y-my)^2)<=10 then
+    if math.sqrt((speedText.x-mx)^2+(speedText.y-my)^2)<=40 
+    then
         love.graphics.print("text speed",400,UI.y+30)
 
 
