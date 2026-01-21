@@ -580,7 +580,7 @@ function AllowEditTextContent()
     love.graphics.print(textWithCursor, UI.x + 570 - math.floor(scroller.x / 10), UI.y - 22 - scroller.y * 15)
 
     -- Draw the cursor as a vertical line (for better representation)
-
+    ShowWordCount()
 
 
 
@@ -589,7 +589,27 @@ end
 
 
 -----------
-function buffer()
-    
+function ShowWordCount()
+        local chars = {}
+    local text = "Word Count: "..#textContent
+
+    for i = 1, #text do
+        chars[i] = text:sub(i, i)
+    end
+
+
+    local startX = love.graphics.getWidth()-250
+    local startY = 550
+    local amplitude = 10     -- height of the wave
+    local speed = 4          -- animation speed
+    local spacing = 12 
+    local time = love.timer.getTime()
+
+    for i, char in ipairs(chars) do
+        local x = startX + (i - 1) * spacing
+        local y = startY + math.sin(time * speed + i * 0.5) * amplitude
+
+        love.graphics.print(char, x, y)
+    end
 end
 
