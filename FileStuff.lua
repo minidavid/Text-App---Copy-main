@@ -260,11 +260,20 @@ function AllowEditTextContent()
         end
     end
 
-    if (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) and love.keyboard.isDown("s")
-     then
+    if (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) and isKeyHeldOrTapped("s")
+    then
         FileStuffSave()
     end
 
+    if (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) and isKeyHeldOrTapped("o")
+    then
+        FileStuffOpen()
+    end
+
+    if (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) and isKeyHeldOrTapped("n")
+    then
+        FileStuffOpen()
+    end
 
     --ctrl + x
     if (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) and isKeyHeldOrTapped("x")
@@ -609,7 +618,9 @@ function ShowWordCount()
         local x = startX + (i - 1) * spacing
         local y = startY + math.sin(time * speed + i * 0.5) * amplitude
 
-        love.graphics.print(char, x, y)
+        if #textContent>0 then
+            love.graphics.print(char, x, y)
+        end
     end
 end
 

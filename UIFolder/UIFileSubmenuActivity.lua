@@ -160,16 +160,18 @@ function DisplayOpen()
 
     --click
     if WhileOpenSubmenuHover()
-    and love.mouse.isDown(1,1) then
+    then
+        if love.mouse.isDown(1,1) then
 
-        sr1:setVolume(volume)
-        sr1:setPitch(0.2)
-        sr1:play()
+            sr1:setVolume(volume)
+            sr1:setPitch(0.2)
+            sr1:play()
 
-        FileStuffOpen() --FileStuff.lua file, write the file
-        
-        if screenShakeTogglePressed[#screenShakeTogglePressed] then
-            love.graphics.translate(math.random(-10,10),math.random(-10,10))            
+            FileStuffOpen() --FileStuff.lua file, write the file
+            
+            if screenShakeTogglePressed[#screenShakeTogglePressed] then
+                love.graphics.translate(math.random(-10,10),math.random(-10,10))            
+            end
         end
 
     end
