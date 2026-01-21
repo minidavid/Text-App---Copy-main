@@ -590,7 +590,7 @@ end
 
 -----------
 function ShowWordCount()
-        local chars = {}
+    local chars = {}
     local text = "Word Count: "..#textContent
 
     for i = 1, #text do
