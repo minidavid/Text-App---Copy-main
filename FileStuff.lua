@@ -20,6 +20,8 @@ function FileStuffOpen()
 
 end
 
+
+
 ---- save file code ------------------------
 function FileStuffSave()
     local file = io.open(fileName)
@@ -391,7 +393,10 @@ function AllowEditTextContent()
         
                     -- Delete the word
                     textContent = textContent:sub(1, wordStart) .. textContent:sub(cursorIndex)
+                    --delete space
+                    textContent = textContent:sub(1, cursorIndex - 2) .. textContent:sub(cursorIndex)
         
+                    
                     -- Adjust the cursor position to the start of the new word (or just after the space)
                     cursorIndex = wordStart
                 end
@@ -452,7 +457,7 @@ function AllowEditTextContent()
         end
     end
 
-    if isKeyHeldOrTapped("tab") then
+    if isKeyTapped("tab") then
         textContent = textContent:sub(1, cursorIndex - 1) .. "    " .. textContent:sub(cursorIndex)
         cursorIndex = cursorIndex + 4
     end
@@ -590,8 +595,7 @@ function AllowEditTextContent()
 
     -- Draw the cursor as a vertical line (for better representation)
     ShowWordCount()
-
-
+    CheckSaved()
 
 
 end
@@ -624,3 +628,27 @@ function ShowWordCount()
     end
 end
 
+
+function CheckSaved() 
+    local file
+    local myText
+
+    -- Attempt to open the file for reading
+    file = io.open(fileName, "r")
+
+    if file~=nil then
+        myText = file:read("*all")
+        file:close()
+    else
+        myText = "file error"
+    end
+
+    if myText == textContent then
+        love.graphics.print("Saved!",520,10)
+    elseif myText ~= textContent and myText ~= "file error" then
+        love.graphics.print("not saved!",520,10)
+    else
+        love.graphics.print("File does not exist, create file in the edit file name, then press ctrl+s",520,10)
+    end
+
+end

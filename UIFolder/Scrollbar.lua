@@ -16,11 +16,12 @@ end
 
 --scroll with scroll wheel
 function love.wheelmoved(x,y)
-    
+
     --horizontal scrolling
     if x<0 then
         scroller.x = scroller.x - scrollSpeed
     end
+    
     if x>0 then
         scroller.x = scroller.x + scrollSpeed
     end
@@ -28,7 +29,7 @@ function love.wheelmoved(x,y)
     --vertical scrolling
     if y<0 then
         scroller.y = scroller.y - scrollSpeed
-    end    
+    end
     if y>0 then
         scroller.y = scroller.y + scrollSpeed
     end

@@ -102,8 +102,6 @@ function love.draw()
         AllowEditTextContent()
     end
 
-
-
     FileSubmenu()
     DisplaySave() 
     DrawTypedoutText()
