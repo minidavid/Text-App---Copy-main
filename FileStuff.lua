@@ -644,7 +644,7 @@ function CheckSaved()
     end
 
     if myText == textContent then
-        love.graphics.print("Saved!",520,10)
+        love.graphics.print("Your file working filled you with determination. Saved!",520,10)
     elseif myText ~= textContent and myText ~= "file error" then
         love.graphics.print("not saved!",520,10)
     else
