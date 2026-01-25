@@ -36,6 +36,7 @@ end
 function HeaderText()
     --moved to AllowEditText()
     --love.graphics.print(fileName,(header.x + UI.x + UI.sx + UI.width * 9)/2 - string.len(fileName)*3.6,header.y+6) --header vars located: UI.lua
+
 end
 
 
@@ -597,7 +598,6 @@ function AllowEditTextContent()
     ShowWordCount()
     CheckSaved()
 
-
 end
 
 
@@ -626,6 +626,8 @@ function ShowWordCount()
             love.graphics.print(char, x, y)
         end
     end
+
+
 end
 
 

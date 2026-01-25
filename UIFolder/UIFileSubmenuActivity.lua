@@ -61,7 +61,8 @@ function DisplayAbout()
 
     if aboutPressed[#aboutPressed] then
         love.graphics.print("\nminidavid, 2025", UI.x+352, love.graphics.getHeight()-150)
-
+        love.graphics.print("       This was made with LOVE version: 11. \nThe current Version of LOVE you are using is: ".. love.getVersion(), UI.x+100, love.graphics.getHeight()-90)
+        
         if (mx > UI.x + 352
         and mx < UI.x + UI.width * 9
         and my > UI.y + love.graphics.getHeight()-152

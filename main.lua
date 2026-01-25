@@ -87,6 +87,7 @@ local utf8 = require('utf8')
 function love.draw()
     love.graphics.setBackgroundColor(white)
     DrawShader2()
+    DrawShader() -- IS LAST draw function
 
     Parser()
 
@@ -94,6 +95,7 @@ function love.draw()
     DrawUI()
     UIActivity()
     HeaderText()
+
 --/home/davidnjihia/Downloads/Text-App---Copy-main/main.lua
 
     if mode == 1 then
@@ -116,8 +118,6 @@ function love.draw()
     
     DrawPreferences()
     DrawScreen()
-    
-    DrawShader() -- IS LAST draw function
 
 end
 
@@ -162,6 +162,7 @@ function CloseWindow()
         else
             love.event.quit()
         end
+
     end
 
 end
