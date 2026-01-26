@@ -402,7 +402,7 @@ function ReplaceMinusText(text)
            
             if cursorIndex > 1 then
                 textContent = textContent:sub(1, cursorIndex - 11) .. textContent:sub(cursorIndex)
-                cursorIndex = cursorIndex - 1
+                cursorIndex = cursorIndex - 4
             end
 
             text = string.gsub(text, "%[" .. letterMinus .. "%-" .. numberMinus .. "%]", newLetter)
@@ -437,7 +437,8 @@ function ReplacePlusText(text)
         for letter,number in pairs(variablesWord) do
             local newLetter = string.char(string.byte(letter) + number)
            
-            if cursorIndex > 1 then
+            if cursorIndex > 1
+             then
                 textContent = textContent:sub(1, cursorIndex - 11) .. textContent:sub(cursorIndex)
                 cursorIndex = cursorIndex - 4
             end
@@ -448,6 +449,7 @@ function ReplacePlusText(text)
         textContent = text
     end
 
+    love.graphics.print(cursorIndex,100,100)
 
 end
 
