@@ -48,7 +48,8 @@ function DisplayFileRect()
 end
 
 function DisplayFileSubmenu()
-    if fileClicked[#fileClicked] == true then
+    if fileClicked[#fileClicked] == true 
+    then
         love.graphics.print("about",UI.x,UI.y+30)
         love.graphics.print("new",UI.x,UI.y+60)
         love.graphics.print("open",UI.x,UI.y+90)

@@ -19,11 +19,11 @@ function love.wheelmoved(x,y)
 
     --horizontal scrolling
     if x<0 then
-        scroller.x = scroller.x - scrollSpeed
+        scroller.x = scroller.x - scrollSpeed * 20
     end
     
     if x>0 then
-        scroller.x = scroller.x + scrollSpeed
+        scroller.x = scroller.x + scrollSpeed * 20
     end
 
     --vertical scrolling

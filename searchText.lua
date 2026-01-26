@@ -215,6 +215,7 @@ require('DrawSomeCool')
 function ReplaceMathConstants(text)
     text = string.gsub(text, "%[PI value%]", 3.14159265358979)
     text = string.gsub(text, "%[pi value%]", 3.14159265358979)
+    text = string.gsub(text, "%[math.pi%]", 3.14159265358979)
     text = string.gsub(text, "%[eq%]", "=")
     text = string.gsub(text, "%[plus%]", "+")
     text = string.gsub(text, "%[add%]", "+")
@@ -438,7 +439,7 @@ function ReplacePlusText(text)
            
             if cursorIndex > 1 then
                 textContent = textContent:sub(1, cursorIndex - 11) .. textContent:sub(cursorIndex)
-                cursorIndex = cursorIndex - 1
+                cursorIndex = cursorIndex - 4
             end
 
             text = string.gsub(text, "%[" .. letter .. "%+" .. number .. "%]", newLetter)

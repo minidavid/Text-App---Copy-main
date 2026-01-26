@@ -103,7 +103,9 @@ end
 local keyPressed = {}
 
 function isKeyTapped(key)
-    if love.keyboard.isDown(key) and not love.mouse.isDown(1,1) then
+    if love.keyboard.isDown(key) 
+    --and not love.mouse.isDown(1,1)
+     then
         if keyPressed[key] == nil or keyPressed[key] ==false  then
             keyPressed[key] = true
 
@@ -136,7 +138,7 @@ function AllowEditTextFileName()
             cursorIndex = cursorIndex + 1
         end
     elseif isKeyHeldOrTapped("left") then
-        if cursorIndex >=1 then
+        if cursorIndex >=2 then
             cursorIndex = cursorIndex - 1
         end
 
@@ -144,10 +146,20 @@ function AllowEditTextFileName()
 
     -- Editing fileName with keys
     for i = 1, #alphabet2 do
-        if isKeyHeldOrTapped(alphabet2[i]) then
-            fileName = fileName:sub(1, cursorIndex - 1) .. alphabet2[i] .. fileName:sub(cursorIndex)
-            cursorIndex = cursorIndex + 1
+
+        if love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift") then
+            if isKeyHeldOrTapped(alphabet2[i]) then
+                fileName = fileName:sub(1, cursorIndex - 1) .. string.upper(alphabet2[i]) .. fileName:sub(cursorIndex)
+                cursorIndex = cursorIndex + 1
+            end
+        else
+
+            if isKeyHeldOrTapped(alphabet2[i]) then
+                fileName = fileName:sub(1, cursorIndex - 1) .. alphabet2[i] .. fileName:sub(cursorIndex)
+                cursorIndex = cursorIndex + 1
+            end
         end
+
     end
 
     -- Handle backspace (delete at cursor position)
@@ -229,7 +241,7 @@ end
 function AllowEditTextContent()
 
     if love.keyboard.isDown("left") and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
-        if cursorIndex > 1 then
+        if cursorIndex > 2 then
             local wordStart = cursorIndex - 1
             -- Ensure the wordStart doesn't go below 1
             if wordStart < 2 then
@@ -371,15 +383,8 @@ function AllowEditTextContent()
     -- Backspace handling (delete character before the cursor)
     
     if isKeyTapped("backspace") then
-        if not (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then --remove letter
-            
-                if cursorIndex > 1 then
-                    textContent = textContent:sub(1, cursorIndex - 2) .. textContent:sub(cursorIndex)
-                    cursorIndex = cursorIndex - 1
-                end
 
-
-        elseif (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then -- Handle Ctrl + Backspace to delete a whole word
+        if (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then -- Handle Ctrl + Backspace to delete a whole word
    
                 if cursorIndex > 1 then
 
@@ -401,6 +406,13 @@ function AllowEditTextContent()
                     -- Adjust the cursor position to the start of the new word (or just after the space)
                     cursorIndex = wordStart
                 end
+        
+        else
+
+            if cursorIndex > 1 then
+                    textContent = textContent:sub(1, cursorIndex - 2) .. textContent:sub(cursorIndex)
+                    cursorIndex = cursorIndex - 1
+            end
 
         end
 
@@ -413,6 +425,7 @@ function AllowEditTextContent()
 
     -- Move up
     if isKeyHeldOrTapped("up")
+    or (love.mouse.isDown(1) and mx>500)
     then
         if cursorIndex > 1 then
 
@@ -439,6 +452,7 @@ function AllowEditTextContent()
 
     -- Move down
     if isKeyHeldOrTapped("down")
+    or (love.mouse.isDown(2) and mx>500)
     then
         if cursorIndex <#textContent then
 

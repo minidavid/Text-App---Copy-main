@@ -85,6 +85,7 @@ end
 
 local utf8 = require('utf8')
 function love.draw()
+    
     love.graphics.setBackgroundColor(white)
     DrawShader2()
     DrawShader() -- IS LAST draw function
