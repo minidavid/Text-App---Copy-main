@@ -402,7 +402,7 @@ function ReplaceMinusText(text)
            
             if cursorIndex > 1 then
                 textContent = textContent:sub(1, cursorIndex - 11) .. textContent:sub(cursorIndex)
-                cursorIndex = cursorIndex - 4
+                cursorIndex = cursorIndex - 3 - #tostring(numberMinus)
             end
 
             text = string.gsub(text, "%[" .. letterMinus .. "%-" .. numberMinus .. "%]", newLetter)
@@ -440,7 +440,7 @@ function ReplacePlusText(text)
             if cursorIndex > 1
              then
                 textContent = textContent:sub(1, cursorIndex - 11) .. textContent:sub(cursorIndex)
-                cursorIndex = cursorIndex - 4
+                cursorIndex = cursorIndex - 3 - #tostring(number)
             end
 
             text = string.gsub(text, "%[" .. letter .. "%+" .. number .. "%]", newLetter)
@@ -488,7 +488,7 @@ local num1
 local num2
 
 function ParsenumAdd(text)
-    num1, num2 = string.match(text, "%[([%d%.]+)%+([%d%.]+)%]")
+    num1, num2 = string.match(text, "%[([%-?%d+%.?%d*]+)%+([%-?%d+%.?%d*]+)%]")
 
     if num1~="" and num1~=nil and num2~="" and num2~=nil then
         variablesnumAdd[num1] = tonumber(num2)
@@ -498,22 +498,60 @@ end
 
 function ReplacenumAdd(text)
     -- Check if the "[small]" tag was detected
+    local replacements
+
     if num1~="" and num1~=nil and num2~="" and num2~=nil then
        
+
         for num1,num2 in pairs(variablesnumAdd) do
-            local newLetter = tostring(num1 + num2)
+            local newLetter = tostring(tonumber(num1) + tonumber(num2))
+            
+            --replace word with newLetter
+            local removedLen = #tostring(num1) + #tostring(num2) + 3
+            local insertedLen = #newLetter
+            local actualLen = removedLen - insertedLen
            
-            if cursorIndex > 1 then
-                textContent = textContent:sub(1, cursorIndex - 11) .. textContent:sub(cursorIndex)
-                cursorIndex = cursorIndex - 1
+            --for the pattern for negative nums and decimals.
+            local safeNum1 = tostring(num1):gsub("%-", "%%-")
+            local safeNum2 = tostring(num2):gsub("%-", "%%-")
+
+            local pattern = "%[" .. safeNum1 .. "%+" .. safeNum2 .. "%]"
+            local replacements
+           
+            text, replacements = string.gsub(text, pattern, newLetter)
+
+            ---adjust cursor
+            --we have the cursor at the end of the word,
+            --else we have it at the start of the word.
+            
+            local wordStart = cursorIndex - 1
+            -- Ensure the wordStart doesn't go below 1
+            if wordStart < 2 then
+                wordStart = 2
             end
 
-            text = string.gsub(text, "%[" .. num1 .. "%+" .. num2 .. "%]", newLetter)
+            while wordStart > 2 and not textContent:sub(wordStart, wordStart):match("%s") do
+                wordStart = wordStart - 1
+            end
+
+
+            if (cursorIndex - actualLen * replacements) > 2 and not textContent:sub(wordStart, wordStart):match("%[") then
+                cursorIndex = cursorIndex - actualLen * replacements
+            else
+                cursorIndex = wordStart+1
+            end
+
         end
+
+
 
         textContent = text
     end
 
+
+
+    --love.graphics.print("actualLen: "..tostring(actualWordLen),100,110)
+    --love.graphics.print("cursorI: "..tostring(cursorIndex),100,120)
 
 end
 ---------------
@@ -522,7 +560,12 @@ local num3
 local num4
 
 function ParsenumMinus(text)
-    num3, num4 = string.match(text, "%[([%d%.]+)%-([%d%.]+)%]")
+    num3, num4 = string.match(text, "%[([%-?%d+%.?%d*]+)%-([%-?%d+%.?%d*]+)%]")
+
+    -- to avoid multiply error. It must not have multiply
+    if text:find("[%*%*]") then
+        return
+    end
 
     if num3~="" and num3~=nil and num4~="" and num4~=nil then
         variablesnumMinus[num3] = tonumber(num4)
@@ -535,15 +578,46 @@ function ReplacenumMinus(text)
     if num3~="" and num3~=nil and num4~="" and num4~=nil then
        
         for num3,num4 in pairs(variablesnumMinus) do
-            local newLetter = tostring(num3 - num4)
+            local newLetter = tostring(tonumber(num3) - tonumber(num4))
+            
+            --replace word with newLetter
+            local removedLen = #tostring(num3) + #tostring(num4) + 3
+            local insertedLen = #newLetter
+            local actualLen = removedLen - insertedLen
            
-            if cursorIndex > 1 then
-                textContent = textContent:sub(1, cursorIndex - 11) .. textContent:sub(cursorIndex)
-                cursorIndex = cursorIndex - 1
+            --for the pattern for negative nums and decimals.
+            local safeNum1 = tostring(num3):gsub("%-", "%%-")
+            local safeNum2 = tostring(num4):gsub("%-", "%%-")
+
+            local pattern = "%[" .. safeNum1 .. "%-" .. safeNum2 .. "%]"
+            local replacements
+           
+            text, replacements = string.gsub(text, pattern, newLetter)
+
+            ---adjust cursor
+            --we have the cursor at the end of the word,
+            --else we have it at the start of the word.
+            
+            local wordStart = cursorIndex - 1
+            -- Ensure the wordStart doesn't go below 1
+            if wordStart < 2 then
+                wordStart = 2
             end
 
-            text = string.gsub(text, "%[" .. num3 .. "%-" .. num4 .. "%]", newLetter)
+            while wordStart > 2 and not textContent:sub(wordStart, wordStart):match("%s") do
+                wordStart = wordStart - 1
+            end
+
+
+            if (cursorIndex - actualLen * replacements) > 2 and not textContent:sub(wordStart, wordStart):match("%[") then
+                cursorIndex = cursorIndex - actualLen * replacements
+            else
+                cursorIndex = wordStart+1
+            end
+
+
         end
+
 
         textContent = text
     end
@@ -556,10 +630,11 @@ local num5
 local num6
 
 function ParsenumMultiply(text)
-    num5, num6 = string.match(text, "%[([%d%.]+)%*([%d%.]+)%]")
+    num5, num6 = string.match(text, "%[(%-?%d+%.?%d*)%*(-?%d+%.?%d*)%]")
 
     if num5~="" and num5~=nil and num6~="" and num6~=nil then
-        variablesnumMultiply[num5] = tonumber(num6)
+        --variablesnumMultiply[num5] = tonumber(num6)
+        table.insert(variablesnumMultiply, { a = num5, b = num6 })
     end
     
 end
@@ -568,15 +643,44 @@ function ReplacenumMultiply(text)
     -- Check if the "[small]" tag was detected
     if num5~="" and num5~=nil and num6~="" and num6~=nil then
        
-        for num5,num6 in pairs(variablesnumMultiply) do
-            local newLetter = tostring(num5 * num6)
+        for _, v in ipairs(variablesnumMultiply) do
+            local newLetter = tostring(tonumber(v.a) * tonumber(v.b))
+            
+            --replace word with newLetter
+            local removedLen = #tostring(v.a) + #tostring(v.b) + 3
+            local insertedLen = #newLetter
+            local actualLen = removedLen - insertedLen
            
-            if cursorIndex > 1 then
-                textContent = textContent:sub(1, cursorIndex - 11) .. textContent:sub(cursorIndex)
-                cursorIndex = cursorIndex - 1
+            --for the pattern for negative nums and decimals.
+            local safeNum1 = tostring(v.a):gsub("%-", "%%-")
+            local safeNum2 = tostring(v.b):gsub("%-", "%%-")
+
+            local pattern = "%[" .. safeNum1 .. "%*" .. safeNum2 .. "%]"
+            local replacements
+           
+            text, replacements = string.gsub(text, pattern, newLetter)
+
+            ---adjust cursor
+            --we have the cursor at the end of the word,
+            --else we have it at the start of the word.
+            
+            local wordStart = cursorIndex - 1
+            -- Ensure the wordStart doesn't go below 1
+            if wordStart < 2 then
+                wordStart = 2
             end
 
-            text = string.gsub(text, "%[" .. num5 .. "%*" .. num6 .. "%]", newLetter)
+            while wordStart > 2 and not textContent:sub(wordStart, wordStart):match("%s") do
+                wordStart = wordStart - 1
+            end
+
+
+            if (cursorIndex - actualLen * replacements) > 2 and not textContent:sub(wordStart, wordStart):match("%[") then
+                cursorIndex = cursorIndex - actualLen * replacements
+            else
+                cursorIndex = wordStart+1
+            end
+
         end
 
         textContent = text
@@ -588,10 +692,11 @@ local num7
 local num8
 
 function ParsenumDivide(text)
-    num7, num8 = string.match(text, "%[([%d%.]+)%/([%d%.]+)%]")
+    num7, num8 = string.match(text, "%[(%-?%d+%.?%d*)%/(-?%d+%.?%d*)%]")
 
     if num7~="" and num7~=nil and num8~="" and num8~=nil then
-        variablesnumDivide[num7] = tonumber(num8)
+        --variablesnumDivide[num7] = tonumber(num8)
+        table.insert(variablesnumDivide, { a = num7, b = num8 })
     end
     
 end
@@ -600,15 +705,44 @@ function ReplacenumDivide(text)
     -- Check if the "[small]" tag was detected
     if num7~="" and num7~=nil and num8~="" and num8~=nil then
        
-        for num7,num8 in pairs(variablesnumDivide) do
-            local newLetter = tostring(num7 / num8)
+        for _, v in ipairs(variablesnumDivide) do
+            local newLetter = tostring(tonumber(v.a) * tonumber(v.b))
+            
+            --replace word with newLetter
+            local removedLen = #tostring(v.a) + #tostring(v.b) + 3
+            local insertedLen = #newLetter
+            local actualLen = removedLen - insertedLen
            
-            if cursorIndex > 1 then
-                textContent = textContent:sub(1, cursorIndex - 11) .. textContent:sub(cursorIndex)
-                cursorIndex = cursorIndex - 1
+            --for the pattern for negative nums and decimals.
+            local safeNum1 = tostring(v.a):gsub("%-", "%%-")
+            local safeNum2 = tostring(v.b):gsub("%-", "%%-")
+
+            local pattern = "%[" .. safeNum1 .. "%/" .. safeNum2 .. "%]"
+            local replacements
+           
+            text, replacements = string.gsub(text, pattern, newLetter)
+
+            ---adjust cursor
+            --we have the cursor at the end of the word,
+            --else we have it at the start of the word.
+            
+            local wordStart = cursorIndex - 1
+            -- Ensure the wordStart doesn't go below 1
+            if wordStart < 2 then
+                wordStart = 2
             end
 
-            text = string.gsub(text, "%[" .. num7 .. "%/" .. num8 .. "%]", newLetter)
+            while wordStart > 2 and not textContent:sub(wordStart, wordStart):match("%s") do
+                wordStart = wordStart - 1
+            end
+
+
+            if (cursorIndex - actualLen * replacements) > 2 and not textContent:sub(wordStart, wordStart):match("%[") then
+                cursorIndex = cursorIndex - actualLen * replacements
+            else
+                cursorIndex = wordStart+1
+            end
+
         end
 
         textContent = text
@@ -654,10 +788,10 @@ local num10
 local num11
 
 function ParsenumPower(text)
-    num10, num11 = string.match(text, "%[([%d%.]+)%^([%d%.]+)%]")
+    num10, num11 = string.match(text, "%[(%-?%d+%.?%d*)%^(-?%d+%.?%d*)%]")
 
     if num10~="" and num10~=nil and num11~="" and num11~=nil then
-        variablesnumPower[num10] = tonumber(num11)
+        table.insert(variablesnumPower, { a = num10, b = num11 })
     end
     
 end
@@ -666,15 +800,43 @@ function ReplacenumPower(text)
     -- Check if the "[small]" tag was detected
     if num10~="" and num10~=nil and num11~="" and num11~=nil then
        
-        for num10,num11 in pairs(variablesnumPower) do
-            local newLetter = tostring(num10 ^ num11)
+        for _, v in ipairs(variablesnumPower) do
+            local newLetter = tostring(tonumber(v.a) ^ tonumber(v.b))
+            
+            --replace word with newLetter
+            local removedLen = #tostring(v.a) + #tostring(v.b) + 3
+            local insertedLen = #newLetter
+            local actualLen = removedLen - insertedLen
            
-            if cursorIndex > 1 then
-                textContent = textContent:sub(1, cursorIndex - 11) .. textContent:sub(cursorIndex)
-                cursorIndex = cursorIndex - 1
+            --for the pattern for negative nums and decimals.
+            local safeNum1 = tostring(v.a):gsub("%-", "%%-")
+            local safeNum2 = tostring(v.b):gsub("%-", "%%-")
+
+            local pattern = "%[" .. safeNum1 .. "%^" .. safeNum2 .. "%]"
+            local replacements
+           
+            text, replacements = string.gsub(text, pattern, newLetter)
+
+            ---adjust cursor
+            --we have the cursor at the end of the word,
+            --else we have it at the start of the word.
+            
+            local wordStart = cursorIndex - 1
+            -- Ensure the wordStart doesn't go below 1
+            if wordStart < 2 then
+                wordStart = 2
             end
 
-            text = string.gsub(text, "%[" .. num10 .. "%^" .. num11 .. "%]", newLetter)
+            while wordStart > 2 and not textContent:sub(wordStart, wordStart):match("%s") do
+                wordStart = wordStart - 1
+            end
+
+
+            if (cursorIndex - actualLen * replacements) > 2 and not textContent:sub(wordStart, wordStart):match("%[") then
+                cursorIndex = cursorIndex - actualLen * replacements
+            else
+                cursorIndex = wordStart+1
+            end
         end
 
         textContent = text
@@ -838,10 +1000,11 @@ local num9
 local num10
 
 function ParsenumMod(text)
-    num9, num10 = string.match(text, "%[([%d%.]+)%%([%d%.]+)%]")
+    num9, num10 = string.match(text, "%[(%-?%d+%.?%d*)%%(-?%d+%.?%d*)%]")
 
     if num9~="" and num9~=nil and num10~="" and num10~=nil then
-        variablesnumMod[num9] = tonumber(num10)
+        --variablesnumMod[num9] = tonumber(num10)
+        table.insert(variablesnumMod, { a = num9, b = num10 })
     end
     
 end
@@ -850,15 +1013,45 @@ function ReplacenumMod(text)
     -- Check if the "[small]" tag was detected
     if num9~="" and num9~=nil and num10~="" and num10~=nil then
        
-        for num9,num10 in pairs(variablesnumMod) do
-            local newLetter = tostring(num9 % num10)
+
+        for _, v in ipairs(variablesnumMod) do
+            local newLetter = tostring(tonumber(v.a) % tonumber(v.b))
+            
+            --replace word with newLetter
+            local removedLen = #tostring(v.a) + #tostring(v.b) + 3
+            local insertedLen = #newLetter
+            local actualLen = removedLen - insertedLen
            
-            if cursorIndex > 1 then
-                textContent = textContent:sub(1, cursorIndex - 11) .. textContent:sub(cursorIndex)
-                cursorIndex = cursorIndex - 1
+            --for the pattern for negative nums and decimals.
+            local safeNum1 = tostring(v.a):gsub("%-", "%%-")
+            local safeNum2 = tostring(v.b):gsub("%-", "%%-")
+
+            local pattern = "%[" .. safeNum1 .. "%%" .. safeNum2 .. "%]"
+            local replacements
+           
+            text, replacements = string.gsub(text, pattern, newLetter)
+
+            ---adjust cursor
+            --we have the cursor at the end of the word,
+            --else we have it at the start of the word.
+            
+            local wordStart = cursorIndex - 1
+            -- Ensure the wordStart doesn't go below 1
+            if wordStart < 2 then
+                wordStart = 2
             end
 
-            text = string.gsub(text, "%[" .. num9 .. "%%" .. num10 .. "%]", newLetter)
+            while wordStart > 2 and not textContent:sub(wordStart, wordStart):match("%s") do
+                wordStart = wordStart - 1
+            end
+
+
+            if (cursorIndex - actualLen * replacements) > 2 and not textContent:sub(wordStart, wordStart):match("%[") then
+                cursorIndex = cursorIndex - actualLen * replacements
+            else
+                cursorIndex = wordStart+1
+            end
+
         end
 
         textContent = text
