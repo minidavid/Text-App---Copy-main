@@ -95,6 +95,7 @@ function love.draw()
 
     DrawUI()
     UIActivity()
+    
     HeaderText()
 
 --/home/davidnjihia/Downloads/Text-App---Copy-main/main.lua

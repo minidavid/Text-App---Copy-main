@@ -99,7 +99,7 @@ function Parser()
     ParsenumFactorial(textContent)
     ReplacenumFactorial(textContent)
 
-
+    sortText()
 
 end
 
@@ -1182,5 +1182,49 @@ end
 
 ---I don't know how I'd fix this honestly
 
+
+function sortText()
+    
+
+    textContent = textContent:gsub("%b[]", function(bracketedGroup)
+        local inner = bracketedGroup:sub(2,-2)
+
+        if inner:match("^sort%s+") then
+            local data = inner:gsub("^sort%s+","")
+            local items = {}
+
+            for word in data:gmatch("%S+") do
+                table.insert(items, tonumber(word) or word)
+            end
+
+            table.sort(items, function(a,b)
+                if type(a) == type(b) then return 
+                    a<b 
+                else
+                    return tostring(a) < tostring(b)
+                end
+            end)
+
+            return "[sort ".. table.concat(items, " ").."]"
+
+        end
+
+        return bracketedGroup
+
+    end)
+
+    -- textContent = textContent:gsub("%b[sort ]", function(bracketedGroup)
+    --     local content = bracketedGroup:sub(2,-2)
+    --     return sortInsideBrackets(content)
+
+    -- end
+    -- )
+
+end
+
+
+function findText()
+
+end
 
 
