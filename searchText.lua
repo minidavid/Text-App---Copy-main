@@ -72,6 +72,8 @@ function Parser()
     ParseSmall(textContent)
     ReplaceSmall(textContent)
 
+    AddMusic(textContent)
+
     ParsePlusText(textContent)
     ReplacePlusText(textContent)
 
@@ -230,6 +232,7 @@ function ReplaceMathConstants(text)
     text = string.gsub(text, "%[mod%]", "%%")
     text = string.gsub(text, "%[modulo%]", "%%")
     text = string.gsub(text, "%[factorial%]", "!")
+    text = string.gsub(text, "%[paused%]", utf8.char(0x23F8))
 
 
     --greek letters commonly used
@@ -240,6 +243,7 @@ function ReplaceMathConstants(text)
     end
 
     
+
     text = string.gsub(text, "%[DELTA%]", "Δ")
     text = string.gsub(text, "%[OMEGA%]", "Ω")
     text = string.gsub(text, "%[omega%]", "ω")
@@ -994,6 +998,7 @@ end
     
 
 
+
 --------------
 local variablesnumMod = {}
 local num9
@@ -1060,19 +1065,107 @@ function ReplacenumMod(text)
 
 end
 
+---
+local musicSource = nil
+local sr4 = ""
+local musicT = {}
+local musicTriggered = false
+local lastMusicFile = ""
+
+
+
+function AddMusic(myText)
+
+    if musicSource~=nil then
+        if string.find(myText, "%[stop%]") then
+            musicSource:stop()
+        end
+
+        if string.find(myText, "%[pause%]") then
+            musicSource:pause()
+        end
+
+        if string.find(myText,"%[play%]") then
+            musicSource:play()
+        end
+
+
+    end
+
+    local myText = string.gsub(myText, "%[music%s+(.-)%]", function (foundFile)
+        
+        --prevet crash for music files that refuse to exist
+        local info = love.filesystem.getInfo(foundFile)
+        if not info then
+            love.graphics.print("Your Music File "..foundFile.." does not exist ;_;\nTry adding the music file in the application directory.\nAlso wav, ogg and mp3 are supported.",0,490)
+            return ""
+        end
+
+        if foundFile=="" then
+            love.graphics.print("This is the structure: [music musicfile.extension]\nFirst add the music file in the application directory.\n.wav, .ogg and .mp3 are supported.",0,490)
+            return ""
+        end
+        
+        
+            if foundFile~= lastMusicFile then
+                musicTriggered = false
+
+                if musicSource then
+                    musicSource:stop()
+                end
+            end
+
+            if not musicTriggered then
+                musicSource = love.audio.newSource(foundFile,"stream")
+                musicTriggered = true
+                lastMusicFile = foundFile
+                musicSource:setVolume(volume)
+                love.audio.play(musicSource)
+            end
+        
+            --table.insert(musicT,musicSource)
+
+            musicSource:setLooping(true)
+
+
+           
+
+
+        return ""
+    end)
+    return myText
+
+    --local foundFile = ParseMusic(textContent)
+
+
+
+
+end
+
 --------------
 
 function ParseSmall(text)
     -- Detect the presence of "[small]" and store a flag
-    if string.find(text, "%[smallish]") then
-        variablesSmall["smallish"] = true -- Just a flag, no need for name-value pairs
+    if string.find(text, "%[small]") then
+        variablesSmall["small"] = true -- Just a flag, no need for name-value pairs
+        variablesSmall["smallish"] = false -- Just a flag, no need for name-value pairs
         variablesSmall["caps"] = false -- Just a flag, no need for name-value pairs
     end
 
-    if string.find(text, "%[SMALLISH%]") then
-        variablesSmall["SMALL"] = true
+     if string.find(text, "%[smallish]") then
+        variablesSmall["smallish"] = true -- Just a flag, no need for name-value pairs
+        variablesSmall["small"] = false -- Just a flag, no need for name-value pairs
         variablesSmall["caps"] = false -- Just a flag, no need for name-value pairs
     end
+
+    if string.find(text, "%[SMALL%]") then
+        variablesSmall["SMALL"] = true
+        variablesSmall["smallish"] = false
+        variablesSmall["caps"] = false -- Just a flag, no need for name-value pairs
+    end
+
+
+
 
     if string.find(text, "%[regular]") then
         variablesSmall["caps"] = false -- Just a flag, no need for name-value pairs
@@ -1103,6 +1196,7 @@ function ParseSmall(text)
         love.event.push("quit")
     end
 
+
     if string.find(text, "%[restart%]") then
         love.event.push("quit","restart")        
     end
@@ -1119,12 +1213,18 @@ end
 
 function ReplaceSmall(text)
     -- Check if the "[small]" tag was detected
-    if variablesSmall["smallish"] or variablesSmall["SMALLISH"]then
+    if variablesSmall["small"] or variablesSmall["SMALL"]then
         text = string.lower(text)
     end
 
     if variablesSmall["caps"] then
         text = string.upper(text)
+    end
+
+    if variablesSmall["smallish"] then
+        variablesSmall["small"] = false
+        variablesSmall["SMALL"] = false
+        variablesSmall["caps"] = false
     end
 
 

@@ -26,6 +26,8 @@ fontMonospace=""
 ---------------------------------
 
 function love.load()
+
+    
     love.window.setMode(500, 600, {resizable=false})
 
     white = {1,1,1}
@@ -52,6 +54,9 @@ function love.load()
 
     LoadShader()
     LoadShader2() --IS LAST load function
+
+    pageTexture = love.graphics.newImage("image/pageTexture.png")
+
 end
 
 
