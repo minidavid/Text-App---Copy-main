@@ -43,6 +43,10 @@ function love.load()
 
     correctImg = love.graphics.newImage("image/correct.png")
     undoImg = love.graphics.newImage("image/Undo.png")
+
+    musicnote = love.graphics.newImage("image/musicnote.png")
+    musicnote2 = love.graphics.newImage("image/musicnote2.png")
+    musicnote3 = love.graphics.newImage("image/musicnote3.png")
     
     sr1 = love.audio.newSource("SoundEffectClick.mp3","static")
     sr2 = love.audio.newSource("Save.mp3","static")

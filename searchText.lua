@@ -73,6 +73,7 @@ function Parser()
     ReplaceSmall(textContent)
 
     AddMusic(textContent)
+    AddVolume(textContent)
 
     ParsePlusText(textContent)
     ReplacePlusText(textContent)
@@ -94,6 +95,17 @@ function Parser()
     
     ParsenumMod(textContent)
     ReplacenumMod(textContent)
+
+    ReplacenumRad(textContent) --degrees to rads
+    ReplacenumDegrees(textContent) -- rads to degrees
+    ReplacenumSin(textContent)
+    ReplacenumCos(textContent)
+    ReplacenumTan(textContent)
+    ReplacenumCot(textContent)
+    ReplacenumCosec(textContent)
+    ReplacenumSec(textContent)
+    ReplacenumFloor(textContent)
+    ReplacenumCeil(textContent)
 
     ParseMinusText(textContent)
     ReplaceMinusText(textContent)
@@ -287,14 +299,44 @@ function ReplaceMathConstants(text)
     text = string.gsub(text, "%[CAPS [a-z%s]+%]", string.upper)
     text = string.gsub(text, "%[caps [%w%s%p%d]+%]", string.upper)
     
-    local numArraynames = {"one","two","three","four","five","six","seven","eight","nine","zero"}
-    for i=1,10 do
-        text = string.gsub(text, "numArraynames[i]", numArray[i])
+    local numArraynames = {
+        ["[zero]"] = "0",
+        ["[one]"] = "1",
+        ["[two]"] = "2",
+        ["[three]"] = "3",
+        ["[four]"] = "4",
+        ["[five]"] = "5",
+        ["[six]"] = "6",
+        ["[seven]"] = "7",
+        ["[eight]"] = "8",
+        ["[nine]"] = "9"
+    }
+
+    text = string.gsub(text, "%b[]", numArraynames)
+    
+    
+    local myValues = {"zero","one", "two", "three", "four", "five","six","seven","eight,","nine","ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen","twenty","thirty","forty","fifty","sixty","seventy","eighty","ninety","hundred","thousand", "million","billion","trillion","quadrillion","Quintillion","Sextillion","Septillion"}
+
+
+    for i = 1,21 do
+        text = string.gsub(text, "%[%+" .. tostring(i-1) .. "%]", myValues[i])
     end
+
+
+    --error
+
+    for i = 1,7 do
+        text = string.gsub(text, "%[%+" .. tostring(i*10+20) .. "%]", myValues[i+21])
+
+        for j = 1,9 do
+            text = string.gsub(text, "%[%+" .. tostring(i+2)..tostring(j) .. "%]", myValues[i+21].." "..myValues[j+1])
+        end
+    end
+ 
+    text = string.gsub(text, "%[%-%]", "negative")
     
-    
-    
-    
+
+
     
     
     
@@ -311,6 +353,9 @@ function ReplaceMathConstants(text)
     text = string.gsub(text, "%[area of triangle%]", "A = 1/2 * base^2") --square area
     text = string.gsub(text, "%[area of rectangle%]", "A = width * height") 
     
+    text = string.gsub(text, "%[degrees to radians%]", "rad = deg * pi %/ 180. Use: %[deg num%]")
+    text = string.gsub(text, "%[radians to degrees%]", "deg = rad * 180 %/ pi. Use: %[rad num%]")
+
     text = string.gsub(text, "%[area of circle%]", "A = [PI value] * radius^2") 
     text = string.gsub(text, "%[circumference of circle%]", "A = PI value * diameter")
     
@@ -889,6 +934,168 @@ function ReplacenumHex(text)
 
 end
 
+--
+
+function ReplacenumRad(text)
+
+
+    local command, value = text:match("%[(rad%s*)(%d+%.?%d*)%]")
+
+    if not value then
+        return ""
+    end
+
+
+    text = string.gsub(text,"%[(rad%s*)(%d+%.?%d*)%]",tostring(tonumber(value*math.pi/180)))
+    textContent = text 
+    return text
+
+end
+
+function ReplacenumDegrees(text)
+
+
+    local command, value = text:match("%[(deg%s*)(%d+%.?%d*)%]")
+
+    if not value then
+        return ""
+    end
+
+
+    text = string.gsub(text,"%[(deg%s*)(%d+%.?%d*)%]",tostring(tonumber(value*180/math.pi)))
+    textContent = text 
+    return text
+
+end
+
+
+function ReplacenumSin(text)
+
+
+    local command, value = text:match("%[(sin%s*)(%d+%.?%d*)%]")
+
+    if not value then
+        return ""
+    end
+
+
+    text = string.gsub(text,"%[(sin%s*)(%d+%.?%d*)%]",tostring(tonumber(math.sin(value))))
+    textContent = text 
+    return text
+
+end
+
+function ReplacenumCos(text)
+
+
+    local command, value = text:match("%[(cos%s*)(%d+%.?%d*)%]")
+
+    if not value then
+        return ""
+    end
+
+
+    text = string.gsub(text,"%[(cos%s*)(%d+%.?%d*)%]",tostring(tonumber(math.cos(value))))
+    textContent = text 
+    return text
+
+end
+
+function ReplacenumTan(text)
+
+
+    local command, value = text:match("%[(tan%s*)(%d+%.?%d*)%]")
+
+    if not value then
+        return ""
+    end
+
+
+    text = string.gsub(text,"%[(tan%s*)(%d+%.?%d*)%]",tostring(tonumber(math.tan(value))))
+    textContent = text 
+    return text
+
+end
+
+function ReplacenumCot(text)
+
+
+    local command, value = text:match("%[(cot%s*)(%d+%.?%d*)%]")
+
+    if not value then
+        return ""
+    end
+
+    
+    text = string.gsub(text,"%[(cot%s*)(%d+%.?%d*)%]",tostring(tonumber(1/math.tan(value))))
+    textContent = text 
+    return text
+
+end
+
+function ReplacenumCosec(text)
+
+
+    local command, value = text:match("%[(cosec%s*)(%d+%.?%d*)%]")
+
+    if not value then
+        return ""
+    end
+
+    
+    text = string.gsub(text,"%[(cosec%s*)(%d+%.?%d*)%]",tostring(tonumber(1/math.sin(value))))
+    textContent = text 
+    return text
+
+end
+
+function ReplacenumSec(text)
+
+
+    local command, value = text:match("%[(sec%s*)(%d+%.?%d*)%]")
+
+    if not value then
+        return ""
+    end
+
+    
+    text = string.gsub(text,"%[(sec%s*)(%d+%.?%d*)%]",tostring(tonumber(1/math.cos(value))))
+    textContent = text 
+    return text
+
+end
+
+function ReplacenumFloor(text)
+
+
+    local command, value = text:match("%[(floor%s*)(%d+%.?%d*)%]")
+
+    if not value then
+        return ""
+    end
+
+    
+    text = string.gsub(text,"%[(floor%s*)(%d+%.?%d*)%]",tostring(tonumber(math.floor(value))))
+    textContent = text 
+    return text
+
+end
+
+function ReplacenumCeil(text)
+
+
+    local command, value = text:match("%[(floor%s*)(%d+%.?%d*)%]")
+
+    if not value then
+        return ""
+    end
+
+    
+    text = string.gsub(text,"%[(floor%s*)(%d+%.?%d*)%]",tostring(tonumber(math.ceil(value))))
+    textContent = text 
+    return text
+
+end
 
 -----FIX THIS!!!!!------
 
@@ -1074,6 +1281,12 @@ local lastMusicFile = ""
 
 
 
+local notePos = {
+    x = 0,
+    y = 0,
+    angle = 0
+}
+
 function AddMusic(myText)
 
     if musicSource~=nil then
@@ -1088,6 +1301,7 @@ function AddMusic(myText)
         if string.find(myText,"%[play%]") then
             musicSource:play()
         end
+
 
 
     end
@@ -1119,15 +1333,34 @@ function AddMusic(myText)
                 musicSource = love.audio.newSource(foundFile,"stream")
                 musicTriggered = true
                 lastMusicFile = foundFile
-                musicSource:setVolume(volume)
                 love.audio.play(musicSource)
+
             end
         
             --table.insert(musicT,musicSource)
 
             musicSource:setLooping(true)
+            musicSource:setVolume(volume)
 
+            love.graphics.push()
+            love.graphics.scale(0.3+math.sin(love.timer.getTime()/15)/15,0.3+math.cos(love.timer.getTime()/15)/15)
 
+            notePos.angle = math.atan2(mx*3-math.sin(100-love.timer.getTime()*2)*300,my*3-math.cos(100-love.timer.getTime()*2)*300)
+            notePos.x = math.sin(notePos.angle) * 2 + mx*3-math.sin(100-love.timer.getTime()*2)*300
+            notePos.y = math.cos(notePos.angle) * 2 + my*3-math.cos(100-love.timer.getTime()*2)*300
+
+            --[music mySong.mp3]
+                love.graphics.draw(musicnote,notePos.x,notePos.y)
+
+                love.graphics.draw(musicnote2,
+                mx*3+math.sin(200-love.timer.getTime()*2)*300,
+                my*3+math.cos(love.timer.getTime()*2)*300
+            )
+                love.graphics.draw(musicnote3,
+                mx*3+math.sin(300-love.timer.getTime()*2)*300,
+                my*3+math.cos(300-love.timer.getTime()*2)*300
+            )
+            love.graphics.pop()
            
 
 
@@ -1138,7 +1371,27 @@ function AddMusic(myText)
     --local foundFile = ParseMusic(textContent)
 
 
+end
 
+function AddVolume(myVolume)
+
+    local command, value = myVolume:match("%[(volume%s*)(%d+)%]")
+
+    if not value then
+        return ""
+    end
+
+
+    if tonumber(value)>=0 and tonumber(value)<=9 then
+        volume = tonumber(value)
+        love.graphics.print("Volume is at: "..volume,100,400)
+    elseif not (tonumber(value)>=0 and tonumber(value)<=9) then
+        love.graphics.print("Use volume from 0-9",100,400)
+    end
+
+
+    
+    return myVolume
 
 end
 
@@ -1187,6 +1440,13 @@ function ParseSmall(text)
         variablesSmall["SMALLISH"] = false -- Just a flag, no need for name-value pairs
     end
 
+    if string.find(text, "%[exit]") then
+        love.event.push("exit")
+    end
+
+    if string.find(text, "%[EXIT]") then
+        love.event.push("EXIT")
+    end
 
     if string.find(text, "%[quit]") then
         love.event.push("quit")
