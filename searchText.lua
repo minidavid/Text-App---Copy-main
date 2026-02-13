@@ -246,6 +246,23 @@ function ReplaceMathConstants(text)
     text = string.gsub(text, "%[factorial%]", "!")
     text = string.gsub(text, "%[paused%]", utf8.char(0x23F8))
 
+    text = string.gsub(text, "%[G%]", "6.674*10^-11")
+    text = string.gsub(text, "%[gravity%]", "gravity = gravityconst * mass1 * mass2 %/ r ^ 2. Use %[ G %] %(in units of m^3.kg^-1.s^-2%-- remove spaces from G brackets).")
+    text = string.gsub(text, "%[Reynold\'s number%]", "Re = Fluid Density * Flow Velocity * Characteristic Linear Dimension %/ Dynamic Viscosity = Flow Velocity * Characteristic Linear Dimension / Kinematic Viscosity. Fluid density %(in units of kg/m^3), Dynamic Viscosity (in Pa.s), Kinematic viscosity (in m^2/s)")
+    text = string.gsub(text, "%[Turbulence%]", "Re = Fluid Density * Flow Velocity * Characteristic Linear Dimension %/ Dynamic Viscosity = Flow Velocity * Characteristic Linear Dimension / Kinematic Viscosity. Fluid density %(in units of kg/m^3), Dynamic Viscosity (in Pa.s), Kinematic viscosity (in m^2/s)")
+    text = string.gsub(text, "%[Laminar%]", "Re = Fluid Density * Flow Velocity * Characteristic Linear Dimension %/ Dynamic Viscosity = Flow Velocity * Characteristic Linear Dimension / Kinematic Viscosity. Fluid density %(in units of kg/m^3), Dynamic Viscosity (in Pa.s), Kinematic viscosity (in m^2/s)")
+
+    text = string.gsub(text, "%[Heat Transfer%]", "Heat Transfer (J) = mass (g) * capacity * (Temperature Initial - Temperature Final)")
+    text = string.gsub(text, "%[Hooke\'s Law%]", "Force (N) = -spring constant (N/m) * displacement (m), or F=-kx. Potential Energy is: 1/2 * k * x^2")
+    text = string.gsub(text, "%[Work%]", "Work = Force (N) * displacement (m) * cos%(theta%), or W=Fdcos(theta).")
+    text = string.gsub(text, "%[Ohm\'s Law%]", "Voltage (V) = Current(A) * Resistance (ohms) or V = I * R")
+    text = string.gsub(text, "%[Resistance In Series%]", "Resistance in series = R1+R2+...+Rn (ohms)")
+    text = string.gsub(text, "%[Resistance In Parallel%]", "Resistance in parallel = 1/R1+1/R2+...+1/Rn (ohms)")
+    text = string.gsub(text, "%[Power%]", "Power (W) = Current(A) * Voltage(V) or P = IV = I^2R = V^2%/R")
+    text = string.gsub(text, "%[Charge%]", "Charge (C) = Current(A) * Time(s) or Q = IT")
+    text = string.gsub(text, "%[physics%]", "Physics formulae: Charge, Power, Resistance In Parallel, Resistance In Series, Ohm\'s Law, Work, Hooke\'s Law, Heat Transfer, Reynold\'s number, gravity")
+    text = string.gsub(text, "%[Physics%]", "Physics formulae: Charge, Power, Resistance In Parallel, Resistance In Series, Ohm\'s Law, Work, Hooke\'s Law, Heat Transfer, Reynold\'s number, gravity")
+
 
     --greek letters commonly used
     local greekCommon = {"%[alpha%]","%[beta%]","%[gamma%]","%[delta%]","%[epsilon%]"}
@@ -972,14 +989,14 @@ end
 function ReplacenumSin(text)
 
 
-    local command, value = text:match("%[(sin%s*)(%d+%.?%d*)%]")
+    local command, value = text:match("%[(sin%s*)(%-?%d+%.?%d*)%]")
 
     if not value then
         return ""
     end
 
 
-    text = string.gsub(text,"%[(sin%s*)(%d+%.?%d*)%]",tostring(tonumber(math.sin(value))))
+    text = string.gsub(text,"%[(sin%s*)(%-?%d+%.?%d*)%]",tostring(tonumber(math.sin(value))))
     textContent = text 
     return text
 
@@ -988,14 +1005,14 @@ end
 function ReplacenumCos(text)
 
 
-    local command, value = text:match("%[(cos%s*)(%d+%.?%d*)%]")
+    local command, value = text:match("%[(cos%s*)(%-?%d+%.?%d*)%]")
 
     if not value then
         return ""
     end
 
 
-    text = string.gsub(text,"%[(cos%s*)(%d+%.?%d*)%]",tostring(tonumber(math.cos(value))))
+    text = string.gsub(text,"%[(cos%s*)(%-?%d+%.?%d*)%]",tostring(tonumber(math.cos(value))))
     textContent = text 
     return text
 
@@ -1004,14 +1021,14 @@ end
 function ReplacenumTan(text)
 
 
-    local command, value = text:match("%[(tan%s*)(%d+%.?%d*)%]")
+    local command, value = text:match("%[(tan%s*)(%-?%d+%.?%d*)%]")
 
     if not value then
         return ""
     end
 
 
-    text = string.gsub(text,"%[(tan%s*)(%d+%.?%d*)%]",tostring(tonumber(math.tan(value))))
+    text = string.gsub(text,"%[(tan%s*)(%-?%d+%.?%d*)%]",tostring(tonumber(math.tan(value))))
     textContent = text 
     return text
 
@@ -1020,14 +1037,14 @@ end
 function ReplacenumCot(text)
 
 
-    local command, value = text:match("%[(cot%s*)(%d+%.?%d*)%]")
+    local command, value = text:match("%[(cot%s*)(%-?%d+%.?%d*)%]")
 
     if not value then
         return ""
     end
 
     
-    text = string.gsub(text,"%[(cot%s*)(%d+%.?%d*)%]",tostring(tonumber(1/math.tan(value))))
+    text = string.gsub(text,"%[(cot%s*)(%-?%d+%.?%d*)%]",tostring(tonumber(1/math.tan(value))))
     textContent = text 
     return text
 
@@ -1036,14 +1053,14 @@ end
 function ReplacenumCosec(text)
 
 
-    local command, value = text:match("%[(cosec%s*)(%d+%.?%d*)%]")
+    local command, value = text:match("%[(cosec%s*)(%-?%d+%.?%d*)%]")
 
     if not value then
         return ""
     end
 
     
-    text = string.gsub(text,"%[(cosec%s*)(%d+%.?%d*)%]",tostring(tonumber(1/math.sin(value))))
+    text = string.gsub(text,"%[(cosec%s*)(%-?%d+%.?%d*)%]",tostring(tonumber(1/math.sin(value))))
     textContent = text 
     return text
 
@@ -1052,14 +1069,14 @@ end
 function ReplacenumSec(text)
 
 
-    local command, value = text:match("%[(sec%s*)(%d+%.?%d*)%]")
+    local command, value = text:match("%[(sec%s*)(%-?%d+%.?%d*)%]")
 
     if not value then
         return ""
     end
 
     
-    text = string.gsub(text,"%[(sec%s*)(%d+%.?%d*)%]",tostring(tonumber(1/math.cos(value))))
+    text = string.gsub(text,"%[(sec%s*)(%-?%d+%.?%d*)%]",tostring(tonumber(1/math.cos(value))))
     textContent = text 
     return text
 
@@ -1068,14 +1085,14 @@ end
 function ReplacenumFloor(text)
 
 
-    local command, value = text:match("%[(floor%s*)(%d+%.?%d*)%]")
+    local command, value = text:match("%[(floor%s*)(%-?%d+%.?%d*)%]")
 
     if not value then
         return ""
     end
 
     
-    text = string.gsub(text,"%[(floor%s*)(%d+%.?%d*)%]",tostring(tonumber(math.floor(value))))
+    text = string.gsub(text,"%[(floor%s*)(%-?%d+%.?%d*)%]",tostring(tonumber(math.floor(value))))
     textContent = text 
     return text
 
@@ -1084,14 +1101,14 @@ end
 function ReplacenumCeil(text)
 
 
-    local command, value = text:match("%[(floor%s*)(%d+%.?%d*)%]")
+    local command, value = text:match("%[(floor%s*)(%-?%d+%.?%d*)%]")
 
     if not value then
         return ""
     end
 
     
-    text = string.gsub(text,"%[(floor%s*)(%d+%.?%d*)%]",tostring(tonumber(math.ceil(value))))
+    text = string.gsub(text,"%[(floor%s*)(%-?%d+%.?%d*)%]",tostring(tonumber(math.ceil(value))))
     textContent = text 
     return text
 

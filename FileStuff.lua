@@ -423,9 +423,40 @@ function AllowEditTextContent()
 
 
 
+    --the cursor aligns with the mouse
+    local _,count = string.gsub(textContent,"\n","\n")
+
+    --mousePosx = mx-tonumber(count)+560-scroller.x/10
+    local mousePosy=1
+    for i = 1,count do
+        if mousePosy<1 then
+            mousePosy=1
+        end
+
+        mousePosy = math.floor( i+scroller.y + (my/16)-37.5)
+        
+
+        if mousePosy<=1 then
+            mousePosy = 1
+        elseif mousePosy>=count then
+            mousePosy = count
+        end
+
+    end
+
+    love.graphics.print("mousePos"..mousePosy,100,410)
+    love.graphics.print("my"..my,100,420)
+    love.graphics.print("scroller.y"..scroller.y,100,430)
+    love.graphics.print("scrollSpeed"..scrollSpeed,100,440)
+
+    if love.mouse.isDown(1) and mx>500 and cursorIndex>1 and mousePosy>=1 and mousePosy<=count then
+            cursorIndex=mousePosy
+        end
+
+
     -- Move up
     if isKeyHeldOrTapped("up")
-    or (love.mouse.isDown(1) and mx>500)
+    or (love.mouse.isDown(1) and love.mouse.isDown(2)  and mx>500)
     then
         if cursorIndex > 1 then
 
@@ -452,7 +483,7 @@ function AllowEditTextContent()
 
     -- Move down
     if isKeyHeldOrTapped("down")
-    or (love.mouse.isDown(2) and mx>500)
+    or (love.mouse.isDown(2) and not love.mouse.isDown(1) and mx>500)
     then
         if cursorIndex <#textContent then
 
