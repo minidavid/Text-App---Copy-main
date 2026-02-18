@@ -215,6 +215,7 @@ end
 function ParseUTF8(text)
 
     text = string.gsub(text, "%[utf(%d+)%]", function (codepoint)
+        cursorIndex = cursorIndex-7
         return utf8.char(tonumber(codepoint))
     end)
 
@@ -515,7 +516,7 @@ function ReplacePlusText(text)
         textContent = text
     end
 
-    love.graphics.print(cursorIndex,100,100)
+    love.graphics.print("Cursor Pos: "..cursorIndex,love.graphics.getWidth()-200,love.graphics.getHeight()-100)
 
 end
 

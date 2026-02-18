@@ -705,7 +705,7 @@ end
 -----------
 function ShowWordCount()
     local chars = {}
-    local text = "Word Count: "..#textContent
+    local text = "Letter Count: "..#textContent
 
     for i = 1, #text do
         chars[i] = text:sub(i, i)
