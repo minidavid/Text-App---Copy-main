@@ -132,15 +132,57 @@ function AllowEditTextFileName()
     -- Move cursor left
 
 
+    if cursorIndex<1 then
+        cursorIndex=1
+    end
+
+    if cursorIndex>#fileName then
+        cursorIndex = #fileName
+    end
+
     -- Move cursor right
     if isKeyHeldOrTapped("right") then
-        if cursorIndex <= #fileName then
-            cursorIndex = cursorIndex + 1
+
+
+        if cursorIndex <=#fileName then
+            local pos = cursorIndex
+            local byte = string.byte(textContent, pos)
+
+            -- Move backwards while we're on continuation bytes (128–191)
+            while byte and byte >= 128 do
+                pos = pos + 1
+                byte = string.byte(textContent, pos)
+            end
+
+
+            cursorIndex = pos
         end
+
+        
+        -- if cursorIndex <= #fileName then
+        --     cursorIndex = cursorIndex + 1
+        -- end
+
+
     elseif isKeyHeldOrTapped("left") then
-        if cursorIndex >=2 then
-            cursorIndex = cursorIndex - 1
+
+     if cursorIndex > 1 then
+        local pos = cursorIndex - 1
+        local byte = string.byte(textContent, pos)
+
+        -- Move backwards while we're on continuation bytes (128–191)
+        while byte and byte >= 128 do
+            pos = pos - math.floor(byte/50)
+            byte = string.byte(textContent, pos)
         end
+
+
+        cursorIndex = pos
+    end
+
+        -- if cursorIndex >=2 then
+        --     cursorIndex = cursorIndex - 1
+        -- end
 
     end
 
@@ -385,6 +427,18 @@ function AllowEditTextContent()
     -- Backspace handling (delete character before the cursor)
     
     if isKeyTapped("backspace") then
+
+        local threshold = "~"
+
+        if cursorIndex>1 then
+                local byte = string.byte(textContent,cursorIndex-1)
+
+                if byte and byte > 126 then
+                    textContent = textContent:sub(1,cursorIndex-2)..textContent:sub(cursorIndex)
+                    cursorIndex = cursorIndex - 1
+                end
+        end
+
 
         if (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then -- Handle Ctrl + Backspace to delete a whole word
    
