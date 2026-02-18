@@ -99,11 +99,23 @@ function Parser()
     ReplacenumRad(textContent) --degrees to rads
     ReplacenumDegrees(textContent) -- rads to degrees
     ReplacenumSin(textContent)
+    ReplacenumASin(textContent)
+    ReplacenumASin2(textContent)
     ReplacenumCos(textContent)
+    ReplacenumACos(textContent)
+    ReplacenumACos2(textContent)
+    ReplacenumArctan(textContent)
+    ReplacenumArctan2(textContent)
     ReplacenumTan(textContent)
     ReplacenumCot(textContent)
+    ReplacenumAcot(textContent)
+    ReplacenumAcot2(textContent)
     ReplacenumCosec(textContent)
+    ReplacenumAcosec(textContent)
+    ReplacenumAcosec2(textContent)
     ReplacenumSec(textContent)
+    ReplacenumAsec(textContent)
+    ReplacenumAsec2(textContent)
     ReplacenumFloor(textContent)
     ReplacenumCeil(textContent)
 
@@ -263,6 +275,23 @@ function ReplaceMathConstants(text)
     text = string.gsub(text, "%[Charge%]", "Charge (C) = Current(A) * Time(s) or Q = IT")
     text = string.gsub(text, "%[physics%]", "Physics formulae: Charge, Power, Resistance In Parallel, Resistance In Series, Ohm\'s Law, Work, Hooke\'s Law, Heat Transfer, Reynold\'s number, gravity")
     text = string.gsub(text, "%[Physics%]", "Physics formulae: Charge, Power, Resistance In Parallel, Resistance In Series, Ohm\'s Law, Work, Hooke\'s Law, Heat Transfer, Reynold\'s number, gravity")
+    text = string.gsub(text, "%[science%]", "Physics formulae: Charge, Power, Resistance In Parallel, Resistance In Series, Ohm\'s Law, Work, Hooke\'s Law, Heat Transfer, Reynold\'s number, gravity")
+
+    text = string.gsub(text, "%[permutations with repetition%]", "n^r")
+    text = string.gsub(text, "%[PERMUTATION%]", "n^r")
+    text = string.gsub(text, "%[permutations without repetition%]", "n!/(n-r)!")
+    text = string.gsub(text, "%[PERMUTE%]", "n!/(n-r)!")
+    text = string.gsub(text, "%[combinations with repetition%]", "(r+n-1)!/(r!(n-1)!)")
+    text = string.gsub(text, "%[COMBINA%]", "(r+n-1)!/(r!(n-1)!)")
+    text = string.gsub(text, "%[combinations without repetition%]", "n!/(n-r)!r!)")
+    text = string.gsub(text, "%[quadratic%]", "quadratic (-b ± sqrt(b^2 - 4 * a * c))/2*a")
+
+    text = string.gsub(text, "%[vector magnitude%]", "sqrt(x^2+y^2)")
+    text = string.gsub(text, "%[vector direction%]", "tan^-1(y/x)")
+
+    
+    text = string.gsub(text, "%[math%]", "[vector magnitude, vector direction, quadratic, permutations with repetition, permutations without repetition, combinations with repetition, combinations without repetition]. Select.")
+
 
 
     --greek letters commonly used
@@ -1003,6 +1032,39 @@ function ReplacenumSin(text)
 
 end
 
+function ReplacenumASin(text)
+
+
+    local command, value = text:match("%[(asin%s*)(%-?%d+%.?%d*)%]")
+
+    if not value then
+        return ""
+    end
+
+
+    text = string.gsub(text,"%[(asin%s*)(%-?%d+%.?%d*)%]",tostring(tonumber(math.asin(value))))
+    textContent = text 
+    return text
+
+end
+
+function ReplacenumASin2(text)
+
+
+    local command, value = text:match("%[(sin%^%-1%s*)(%-?%d+%.?%d*)%]")
+
+    if not value then
+        return ""
+    end
+
+
+    text = string.gsub(text,"%[(sin%^%-1%s*)(%-?%d+%.?%d*)%]",tostring(tonumber(math.asin(value))))
+    textContent = text 
+    return text
+
+end
+
+
 function ReplacenumCos(text)
 
 
@@ -1018,6 +1080,39 @@ function ReplacenumCos(text)
     return text
 
 end
+
+function ReplacenumACos(text)
+
+
+    local command, value = text:match("%[(acos%s*)(%-?%d+%.?%d*)%]")
+
+    if not value then
+        return ""
+    end
+
+
+    text = string.gsub(text,"%[(acos%s*)(%-?%d+%.?%d*)%]",tostring(tonumber(math.acos(value))))
+    textContent = text 
+    return text
+
+end
+
+function ReplacenumACos2(text)
+
+
+    local command, value = text:match("%[(cos%^%-1%s*)(%-?%d+%.?%d*)%]")
+
+    if not value then
+        return ""
+    end
+
+
+    text = string.gsub(text,"%[(cos%^%-1%s*)(%-?%d+%.?%d*)%]",tostring(tonumber(math.acos(value))))
+    textContent = text 
+    return text
+
+end
+
 
 function ReplacenumTan(text)
 
@@ -1035,6 +1130,39 @@ function ReplacenumTan(text)
 
 end
 
+function ReplacenumArctan(text)
+
+
+    local command, value = text:match("%[(arctan%s*)(%-?%d+%.?%d*)%]")
+
+    if not value then
+        return ""
+    end
+
+
+    text = string.gsub(text,"%[(arctan%s*)(%-?%d+%.?%d*)%]",tostring(tonumber(math.atan(value))))
+    textContent = text 
+    return text
+
+end
+
+function ReplacenumArctan2(text)
+
+
+    local command, value = text:match("%[(tan%^%-1%s*)(%-?%d+%.?%d*)%]")
+
+    if not value then
+        return ""
+    end
+
+
+    text = string.gsub(text,"%[(tan%^%-1%s*)(%-?%d+%.?%d*)%]",tostring(tonumber(math.atan(value))))
+    textContent = text 
+    return text
+
+end
+
+
 function ReplacenumCot(text)
 
 
@@ -1051,21 +1179,87 @@ function ReplacenumCot(text)
 
 end
 
-function ReplacenumCosec(text)
+function ReplacenumAcot(text)
 
 
-    local command, value = text:match("%[(cosec%s*)(%-?%d+%.?%d*)%]")
+    local command, value = text:match("%[(arccot%s*)(%-?%d+%.?%d*)%]")
 
     if not value then
         return ""
     end
 
     
-    text = string.gsub(text,"%[(cosec%s*)(%-?%d+%.?%d*)%]",tostring(tonumber(1/math.sin(value))))
+    text = string.gsub(text,"%[(arccot%s*)(%-?%d+%.?%d*)%]",tostring(tonumber(math.atan(1/value))))
     textContent = text 
     return text
 
 end
+
+function ReplacenumAcot2(text)
+
+
+    local command, value = text:match("%[(cot%^%-1%s*)(%-?%d+%.?%d*)%]")
+
+    if not value then
+        return ""
+    end
+
+    
+    text = string.gsub(text,"%[(cot%^%-1%s*)(%-?%d+%.?%d*)%]",tostring(tonumber(math.atan(1/value))))
+    textContent = text 
+    return text
+
+end
+
+
+function ReplacenumCosec(text)
+
+
+    local command, value = text:match("%[(csc%s*)(%-?%d+%.?%d*)%]")
+
+    if not value then
+        return ""
+    end
+
+    
+    text = string.gsub(text,"%[(csc%s*)(%-?%d+%.?%d*)%]",tostring(tonumber(1/math.sin(value))))
+    textContent = text 
+    return text
+
+end
+
+function ReplacenumAcosec(text)
+
+
+    local command, value = text:match("%[(arccsc%s*)(%-?%d+%.?%d*)%]")
+
+    if not value then
+        return ""
+    end
+
+    
+    text = string.gsub(text,"%[(arccsc%s*)(%-?%d+%.?%d*)%]",tostring(tonumber(math.asin(1/value))))
+    textContent = text 
+    return text
+
+end
+
+function ReplacenumAcosec2(text)
+
+
+    local command, value = text:match("%[(csc%^%-1%s*)(%-?%d+%.?%d*)%]")
+
+    if not value then
+        return ""
+    end
+
+    
+    text = string.gsub(text,"%[(csc%^%-%s*)(%-?%d+%.?%d*)%]",tostring(tonumber(math.asin(1/value))))
+    textContent = text 
+    return text
+
+end
+
 
 function ReplacenumSec(text)
 
@@ -1082,6 +1276,41 @@ function ReplacenumSec(text)
     return text
 
 end
+
+function ReplacenumAsec(text)
+
+
+    local command, value = text:match("%[(arcsec%s*)(%-?%d+%.?%d*)%]")
+
+    if not value then
+        return ""
+    end
+
+    
+    text = string.gsub(text,"%[(arcsec%s*)(%-?%d+%.?%d*)%]",tostring(tonumber(math.acos(1/value))))
+    textContent = text 
+    return text
+
+end
+
+function ReplacenumAsec2(text)
+
+
+    local command, value = text:match("%[(sec%^%-1%s*)(%-?%d+%.?%d*)%]")
+
+    if not value then
+        return ""
+    end
+
+    
+    text = string.gsub(text,"%[(sec%^%-1%s*)(%-?%d+%.?%d*)%]",tostring(tonumber(math.acos(1/value))))
+    textContent = text 
+    return text
+
+end
+
+
+
 
 function ReplacenumFloor(text)
 
