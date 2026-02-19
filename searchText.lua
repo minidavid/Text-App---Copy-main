@@ -1662,7 +1662,8 @@ function Speech(mySpeech)
     -- love.graphics.pop()
 
     local espeakCommand =  'espeak-ng "' .. mySpeech .. '"&'
-    
+    mySpeech:setVolume(volume)
+
     os.execute(espeakCommand)
 
     if cursorIndex > 1 then
