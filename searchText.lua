@@ -69,6 +69,8 @@ function Parser()
 
     ParseSwap(textContent)
 
+    Speech(textContent)
+
     ParseSmall(textContent)
     ReplaceSmall(textContent)
 
@@ -1640,6 +1642,36 @@ function AddVolume(myVolume)
     
     return myVolume
 
+end
+
+
+function Speech(mySpeech)
+
+
+    local value = mySpeech:match("%[speech%]")
+
+    if not value then
+        return ""
+    end
+
+
+    -- love.graphics.push()
+    -- love.graphics.scale(0.4,0.4)
+    -- love.graphics.draw(speakImg,100,100)
+    -- love.graphics.draw(quietImg,500,100)
+    -- love.graphics.pop()
+
+    local espeakCommand =  'espeak-ng "' .. mySpeech .. '"&'
+    
+    os.execute(espeakCommand)
+
+    if cursorIndex > 1 then
+        textContent = textContent:sub(1, cursorIndex - 2) .. textContent:sub(cursorIndex)
+        cursorIndex = cursorIndex - 1
+    end
+
+
+    return mySpeech
 end
 
 --------------

@@ -43,6 +43,8 @@ function love.load()
 
     correctImg = love.graphics.newImage("image/correct.png")
     undoImg = love.graphics.newImage("image/Undo.png")
+    speakImg = love.graphics.newImage("image/speak.png")
+    quietImg = love.graphics.newImage("image/quiet.png")
 
     musicnote = love.graphics.newImage("image/musicnote.png")
     musicnote2 = love.graphics.newImage("image/musicnote2.png")
@@ -60,6 +62,7 @@ function love.load()
     LoadShader2() --IS LAST load function
 
     pageTexture = love.graphics.newImage("image/pageTexture.png")
+    --os.execute("espeak-ng 'miniedit'")
 
 end
 
@@ -95,9 +98,12 @@ end
 local utf8 = require('utf8')
 function love.draw()
     
+
+
     love.graphics.setBackgroundColor(white)
     DrawShader2()
     DrawShader() -- IS LAST draw function
+
 
     Parser()
 
