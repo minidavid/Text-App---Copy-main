@@ -1632,7 +1632,7 @@ function AddVolume(myVolume)
 
 
     if tonumber(value)>=0 and tonumber(value)<=9 then
-        volume = tonumber(value)
+        volume = tonumber(value)/10
         love.graphics.print("Volume is at: "..volume,100,400)
     elseif not (tonumber(value)>=0 and tonumber(value)<=9) then
         love.graphics.print("Use volume from 0-9",100,400)
