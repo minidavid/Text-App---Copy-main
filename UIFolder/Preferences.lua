@@ -30,6 +30,7 @@ function DrawPreferences()
         
         ResizeWindow()
         ScreenShakeToggle()
+        WrapTextToggle()
         ClearUI()
         AdjustVolume()
         ShowAutocomplete()
@@ -219,6 +220,51 @@ function ClearUI()
 end
 
 
+-----
+local wrapTextToggle = ""
+wrapTextTogglePressed = false
+
+local startwrapTextTimer = false
+local wrapTextTimert = 0
+
+function WrapTextToggle()
+
+    local boxX = UI.x + UI.width * 1.7
+    local boxY = love.graphics.getHeight() - 200
+    local boxW = 20
+    local boxH = 20
+
+    love.graphics.print("Wrap Text: " .. wrapTextToggle, UI.x, boxY)
+    love.graphics.rectangle("line", boxX, boxY, boxW, boxH)
+
+    if mx > boxX and mx < boxX + boxW
+    and my > boxY and my < boxY + boxH then
+
+        if love.mouse.isDown(1) and not startwrapTextTimer then
+            wrapTextTogglePressed = not wrapTextTogglePressed
+            startwrapTextTimer = true
+        end
+    end
+
+    if wrapTextTogglePressed then
+        wrapTextToggle = "         X"
+    else
+        wrapTextToggle = ""
+    end
+
+    -- Timer
+    if startwrapTextTimer then
+        wrapTextTimert = wrapTextTimert + 1
+    end
+
+    if wrapTextTimert > 20 then
+        startwrapTextTimer = false
+        wrapTextTimert = 0
+    end
+end
+
+
+-----
 local screenShakeToggle = ""
 screenShakeTogglePressed = {false}
 

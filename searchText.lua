@@ -1662,7 +1662,6 @@ function Speech(mySpeech)
     -- love.graphics.pop()
 
     local espeakCommand =  'espeak-ng "' .. mySpeech .. '"&'
-    mySpeech:setVolume(volume)
 
     os.execute(espeakCommand)
 
@@ -1674,6 +1673,8 @@ function Speech(mySpeech)
 
     return mySpeech
 end
+
+
 
 --------------
 

@@ -1,4 +1,6 @@
 local utf8 = require('utf8')
+require('wrapText')
+require('UIFolder.Preferences')
 
 fileName = "Hover to type"
 
@@ -237,7 +239,7 @@ function AllowEditTextFileName()
     local textWithCursor = fileName:sub(1, cursorIndex - 1) .. "I" .. fileName:sub(cursorIndex)
     
     -- Display the updated text with the cursor as part of the string
-    love.graphics.print(textWithCursor, (header.x + UI.x + UI.sx + UI.width * 9)/2 -cursorIndex - string.len(fileName)*3.6,header.y+6)
+    --love.graphics.print(textWithCursor, (header.x + UI.x + UI.sx + UI.width * 9)/2 -cursorIndex - string.len(fileName)*3.6,header.y+6)
 
 end
 
@@ -281,6 +283,8 @@ function CreateTextEffect()
     
 end
 
+
+cursorVersion = "I"
 -- Updated to include cursor as part of textContent
 function AllowEditTextContent()
 
@@ -667,7 +671,7 @@ function AllowEditTextContent()
 
         if v.y<love.graphics.getHeight() then
             love.graphics.print(v.str, v.x, v.y)   
-            --speed lines
+                --speed lines
             
 
 
@@ -690,10 +694,25 @@ function AllowEditTextContent()
 
 
     -- Combine textContent with cursor placeholder
-    local textWithCursor = textContent:sub(1, cursorIndex - 1)  .. utf8.char(182) .. textContent:sub(cursorIndex)
+    -- Swap from wrapped mode to regular mode.
+    if wrapTextTogglePressed then
+        cursorVersion = "I" 
+    else
+        cursorVersion = utf8.char(182)
+    end
 
-    -- Display the updated text with the cursor as part of the string
-    love.graphics.print(textWithCursor, UI.x + 570 - math.floor(scroller.x / 10), UI.y - 22 - scroller.y * 15)
+    -- have text With cursor code
+    local textWithCursor = textContent:sub(1, cursorIndex - 1)  .. cursorVersion .. textContent:sub(cursorIndex)
+
+    -- Display the updated text with the cursor as part of the string either wrapped or not
+    local wrappedTextWithCursor = wrapText(textWithCursor,50)
+
+    if wrapTextTogglePressed then
+        love.graphics.print(wrappedTextWithCursor, UI.x + 570 - math.floor(scroller.x / 10), UI.y - 22 - scroller.y * 15)
+    else
+        love.graphics.print(textWithCursor, UI.x + 570 - math.floor(scroller.x / 10), UI.y - 22 - scroller.y * 15)
+    end
+
 
     -- Draw the cursor as a vertical line (for better representation)
     ShowWordCount()
@@ -724,6 +743,7 @@ function ShowWordCount()
         local y = startY + math.sin(time * speed + i * 0.5) * amplitude
 
         if #textContent>0 then
+            
             love.graphics.print(char, x, y)
         end
     end
