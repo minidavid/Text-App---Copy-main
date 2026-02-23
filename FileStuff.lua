@@ -138,53 +138,54 @@ function AllowEditTextFileName()
         cursorIndex=1
     end
 
-    if cursorIndex>#fileName then
-        cursorIndex = #fileName
-    end
+
 
     -- Move cursor right
     if isKeyHeldOrTapped("right") then
 
 
-        if cursorIndex <=#fileName then
-            local pos = cursorIndex
-            local byte = string.byte(textContent, pos)
+        -- if cursorIndex <#fileName+2 then
+        --     local pos = cursorIndex+1
+        --     local byte = string.byte(fileName, pos)
 
-            -- Move backwards while we're on continuation bytes (128–191)
-            while byte and byte >= 128 do
-                pos = pos + 1
-                byte = string.byte(textContent, pos)
-            end
+        --     -- Move backwards while we're on continuation bytes (128–191)
+        --     while byte and byte >= 128 do
+        --         pos = pos + 1
+        --         byte = string.byte(fileName, pos)
+        --     end
 
 
-            cursorIndex = pos
-        end
+        --     cursorIndex = pos
 
-        
-        -- if cursorIndex <= #fileName then
-        --     cursorIndex = cursorIndex + 1
+
+
         -- end
+
+        if cursorIndex <= #fileName then
+            cursorIndex = cursorIndex + 1
+        end     
+
 
 
     elseif isKeyHeldOrTapped("left") then
 
-     if cursorIndex > 1 then
-        local pos = cursorIndex - 1
-        local byte = string.byte(textContent, pos)
+    --  if cursorIndex > 1 then
+    --     local pos = cursorIndex - 1
+    --     local byte = string.byte(textContent, pos)
 
-        -- Move backwards while we're on continuation bytes (128–191)
-        while byte and byte >= 128 do
-            pos = pos - math.floor(byte/50)
-            byte = string.byte(textContent, pos)
+    --     -- Move backwards while we're on continuation bytes (128–191)
+    --     while byte and byte >= 128 do
+    --         pos = pos - math.floor(byte/50)
+    --         byte = string.byte(textContent, pos)
+    --     end
+
+
+    --     cursorIndex = pos
+    -- end
+
+        if cursorIndex >=2 then
+            cursorIndex = cursorIndex - 1
         end
-
-
-        cursorIndex = pos
-    end
-
-        -- if cursorIndex >=2 then
-        --     cursorIndex = cursorIndex - 1
-        -- end
 
     end
 
@@ -239,7 +240,7 @@ function AllowEditTextFileName()
     local textWithCursor = fileName:sub(1, cursorIndex - 1) .. "I" .. fileName:sub(cursorIndex)
     
     -- Display the updated text with the cursor as part of the string
-    --love.graphics.print(textWithCursor, (header.x + UI.x + UI.sx + UI.width * 9)/2 -cursorIndex - string.len(fileName)*3.6,header.y+6)
+    love.graphics.print(textWithCursor, (header.x + UI.x + UI.sx + UI.width * 9)/2 -cursorIndex - string.len(fileName)*3.6,header.y+6)
 
 end
 

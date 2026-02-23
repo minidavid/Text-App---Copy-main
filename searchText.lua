@@ -61,6 +61,9 @@ function Parser()
     ParseUTF8(textContent)
     ReplaceMathConstants(textContent)
 
+    ReplacePlusMonth(textContent)
+    ReplaceMinusMonth(textContent)
+
     ParsenumLog(textContent)
     ReplacenumLog(textContent)
 
@@ -430,6 +433,7 @@ function ReplaceMathConstants(text)
 
     text = string.gsub(text, "%[i%]", 90) --imaginary's number
     text = string.gsub(text, "%[emdash%]", "–")
+    text = string.gsub(text, "%[%-%-%]", "–")
     text = string.gsub(text, "%[endash%]", "—") 
     text = string.gsub(text, "%[infinity%]", "∞") --euler's number
     
@@ -549,6 +553,53 @@ function ReplacePlusText(text)
 
     love.graphics.print("Cursor Pos: "..cursorIndex,love.graphics.getWidth()-200,love.graphics.getHeight()-100)
 
+end
+
+----
+local variablesMonth = {"January","February","March","April","May","June","July","August","September","October","november","December"}
+
+function ReplacePlusMonth(text)
+
+    local myMonth, mynum2
+    text = string.gsub(text, "%[month (%a+)%+(%d+)%]", function(month, number)
+        number = tonumber(number)
+        
+        myMonth = month        
+        mynum2 = number
+
+
+        for i = 1, 12 do
+            if month == variablesMonth[i] then
+                local newIndex = ((i - 1 + number) % 12) + 1
+                return variablesMonth[newIndex]
+            end
+        end
+
+        return month
+    end)
+
+    textContent = text
+
+    return text
+end
+
+function ReplaceMinusMonth(text)
+
+    text = string.gsub(text, "%[month (%a+)%-(%d+)%]", function(month, number)
+        number = tonumber(number)
+
+        for i = 1, 12 do
+            if month == variablesMonth[i] then
+                local newIndex = ((i - 1 - number) % 12) + 1
+                return variablesMonth[newIndex]
+            end
+        end
+
+        return month
+    end)
+
+    textContent = text
+    return text
 end
 
 -----------------PROCEED FROM HERE!---------------------------
