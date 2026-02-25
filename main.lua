@@ -17,6 +17,7 @@ require('autocomplete')
 require('colorWheel')
 require('DrawSomeCool')
 require('shaders2')
+require('speechtotext')
 
 
 mx,my = 0
@@ -27,6 +28,7 @@ fontMonospace=""
 
 function love.load()
 
+    --/home/davidnjihia/Downloads/Text-App---Copy-main/main.lua
     
     love.window.setMode(500, 600, {resizable=false})
 
@@ -63,7 +65,7 @@ function love.load()
 
     pageTexture = love.graphics.newImage("image/pageTexture.png")
     --os.execute("espeak-ng 'miniedit'")
-
+    LoadSpeechToText()
 end
 
 
@@ -135,7 +137,7 @@ function love.draw()
     
     DrawPreferences()
     DrawScreen()
-
+    DrawSpeechToText()
 end
 
 
@@ -149,6 +151,9 @@ function love.update(dt)
     UpdateTypedOutText(dt)
     CloseWindow()
     EnlargeWindow() 
+
+    UpdateSpeechToText(dt)
+
 end
 
 
