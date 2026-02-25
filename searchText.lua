@@ -458,7 +458,6 @@ function ReplaceMathConstants(text)
     text = string.gsub(text, "%[G earth poles]", 9.8322) --gravity of earth poles
 
     text = string.gsub(text, "%[G earth poles]", 9.8322) --gravity of earth poles
-
     
     text = string.gsub(text, "%[G earth equator%]", 9.7803) --gravity of earth for equator
 
@@ -466,6 +465,19 @@ function ReplaceMathConstants(text)
     text = string.gsub(text, "%[G mars]", 3.720)
     text = string.gsub(text, "%[G jupiter]", 24.97)
 
+    text = string.gsub(text, "%[%?%!%]", "‽")
+    text = string.gsub(text, "%[interrobang%]", "‽")
+    text = string.gsub(text, "%[irony%]", "⸮")
+    text = string.gsub(text, "%[sarcasm%]", "⸮")
+    text = string.gsub(text, "%[dry sarcasm%]", "~.")
+    text = string.gsub(text, "%[enthusiastic sarcasm%]", "~!")
+    text = string.gsub(text, "%[snark%]", ".~")
+    text = string.gsub(text, "%[doubt point%]", "⹈")
+    text = string.gsub(text, "%[doubt%]", "⹈")
+    text = string.gsub(text, "%[exclamation comma%]", "I̹")
+    
+
+    text = string.gsub(text,"%[red %!%]","❗")
 
     textContent = text
 end
