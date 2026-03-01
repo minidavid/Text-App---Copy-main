@@ -476,6 +476,11 @@ function ReplaceMathConstants(text)
     text = string.gsub(text, "%[doubt%]", "⹈")
     text = string.gsub(text, "%[exclamation comma%]", "I̹")
     
+    text = string.gsub(text, "%[linux%]", "[linux tips, linux distros]")
+    text = string.gsub(text, "%[linux tips%]", "These are commands for linux: [reset wifi fedora, ]")
+    
+    text = string.gsub(text, "%[reset wifi fedora%]", "These are commands to reset wifi:\nrfkill list all -- check for hardware & software block\nlspci -knnvnn | grep -A 3 -i net -- look at hardware specs\nTry these next for drivers:\nsudo modprobe -r iwlmvm\nsudo modprobe -r iwlwifi\nsudo modprobe iwlwifi\nsudo systemctl restart NetworkManager\ndmesg | grep iwl | tail -n  20")
+    
 
     text = string.gsub(text,"%[red %!%]","❗")
 

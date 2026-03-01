@@ -138,6 +138,18 @@ function love.draw()
     DrawPreferences()
     DrawScreen()
     DrawSpeechToText()
+
+--    love.graphics.rectangle("line", love.graphics.getWidth()-200,50, 50,40)
+--    love.graphics.rectangle("line", love.graphics.getWidth()-150,50, 50,40)
+--    love.graphics.rectangle("line", love.graphics.getWidth()-100,50, 50,40)
+ 
+    love.graphics.line(love.graphics.getWidth()-180,68, love.graphics.getWidth()-170,68)
+    love.graphics.rectangle("line", love.graphics.getWidth()-130,65, 10,10)
+    love.graphics.line(love.graphics.getWidth()-80,65, love.graphics.getWidth()-70,75)
+    love.graphics.line(love.graphics.getWidth()-80,75, love.graphics.getWidth()-70,65)
+
+    -- love.graphics.print("X",love.graphics.getWidth()-100,60,50,40)
+
 end
 
 

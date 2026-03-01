@@ -9,6 +9,7 @@ function love.conf(t)
     t.window.display = 1
     t.window.vsync = true
     t.window.fullscreen = false
+    t.window.resizable = true
     t.window.fullscreentype = "desktop"
     t.externalstorage = true
 end
