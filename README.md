@@ -5,7 +5,7 @@ _miniedit_ is an experimental text editor made with love2D, a lua framework.
 -------
 **How To Download**
 
-This is available on my itch.io page too: minidavid.itch.io/miniedit-text-editor for an easier install.
+This is available on my itch.io page too: [here](minidavid.itch.io/miniedit-text-editor) for an easier install.
 
 How to download here on github:
 However this github page has the latest code but more complex to get up and running.
