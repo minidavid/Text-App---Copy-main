@@ -1,4 +1,5 @@
 **Intro To Miniedit**
+
 _miniedit_ is an experimental text editor made with love2D, a lua framework.
 
 -------
@@ -6,19 +7,20 @@ _miniedit_ is an experimental text editor made with love2D, a lua framework.
 
 This is available on my itch.io page too: minidavid.itch.io/miniedit-text-editor for an easier install.
 
+How to download here on github:
 However this github page has the latest code but more complex to get up and running.
 
 i. Just go to that green code button and download the zip. Or if you know how to clone it, do so.
 
 ii. Download love2d. Head over to love2d website.
 
-- Optional for tts and Speech to text -
-- 
+_Optional for tts and Speech to text_
+
 iii. Download Python
 
 iv. In python with the "pip install" command, install vosk, pyttsx3 and espeak-ng
 
-- -
+_Continuation_
 
 v. Finally, open the location in which you downloaded the zip file in your terminal.
 
